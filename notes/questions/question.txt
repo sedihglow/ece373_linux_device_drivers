@@ -1,0 +1,13 @@
+1) Do we have to worry about memory fragmentation like on embedded devices with
+   little memory?
+
+
+2) How does the memory gets freed in a way to help with memory fragmentation?
+
+
+3) What are the error handling functionalities of the kernel? Functions, header.
+
+
+4) adding packages with no package manager on embedded linux?
+
+
