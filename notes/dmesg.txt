@@ -1,0 +1,2 @@
+dmesg
+dmesg -T (time stamp stuff with dmessage)

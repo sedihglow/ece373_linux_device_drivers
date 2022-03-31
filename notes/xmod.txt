@@ -1,0 +1,11 @@
+/* Load the module into the kernerl */
+
+sudo insmod program_name.ko
+
+/* list all the loaded modules */
+
+lsmod
+
+/* remove module */
+
+rmmod program_name

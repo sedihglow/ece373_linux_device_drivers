@@ -14,3 +14,6 @@
    there? How to find documentation or a list of functions.
 
 6) Mentioned kernel man pages, where/how to install.
+
+7) What is out of tree vs in tree modules. How to write something that does not
+   "taint" the kernel?
