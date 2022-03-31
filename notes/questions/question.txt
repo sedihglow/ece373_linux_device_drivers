@@ -10,4 +10,7 @@
 
 4) adding packages with no package manager on embedded linux?
 
+5) Should i be using functions like pr_info(), what other print functions are
+   there? How to find documentation or a list of functions.
 
+6) Mentioned kernel man pages, where/how to install.
