@@ -1,0 +1,9 @@
+[submodule "homework_projects/gitclassroom/homework_projects/gitclassroom/githubclassroomtutorial-sedihglow"]
+	path = homework_projects/gitclassroom/homework_projects/gitclassroom/githubclassroomtutorial-sedihglow
+	url = git@github.com:PSUECE373/githubclassroomtutorial-sedihglow.git
+[submodule "homework_projects/gitclassroom/gitclassroom/githubclassroomtutorial-sedihglow"]
+	path = homework_projects/gitclassroom/gitclassroom/githubclassroomtutorial-sedihglow
+	url = git@github.com:PSUECE373/githubclassroomtutorial-sedihglow.git
+[submodule "homework_projects/gitclassroom/githubclassroomtutorial-sedihglow"]
+	path = homework_projects/gitclassroom/githubclassroomtutorial-sedihglow
+	url = git@github.com:PSUECE373/githubclassroomtutorial-sedihglow.git
