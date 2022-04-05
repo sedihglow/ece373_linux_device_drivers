@@ -8,16 +8,16 @@
 #define F_TO_C       2
 #define MENU_EXIT    3
 
-
-int menu_input(bool *ctf, bool *exit)
+int menu_input(bool *ctf, bool *exit_flag)
 {
 	char *input = NULL;
 	int in_val;
 
-	if (!ctf || !exit) {
+	if (!ctf || !exit_flag) {
 		errno = EINVAL;
 		fprintf(stderr, "ctf or exit was not allocated before entering.");
 		return INT_MIN;
+	}
 	
 	do {
 		printf("\nPlease select which type of unit you want to convert.\n"
@@ -56,6 +56,7 @@ int menu_input(bool *ctf, bool *exit)
 			return INT_MIN;
 		}
 		
+		*exit_flag = false;
 		*ctf = true;
 		return in_val;
 	} else if (in_val == F_TO_C) {
@@ -74,10 +75,11 @@ int menu_input(bool *ctf, bool *exit)
 			return INT_MIN;
 		}
 		
+		*exit_flag = false;
 		*ctf = false;
 		return in_val;
 	} else { /* exit */
-		*exit = true;
+		*exit_flag = true;
 		return INT_MAX;
 	}
 }
@@ -113,12 +115,17 @@ char* fgets_input(FILE *fptr)
 	return input;
 }
 
-int conv_ctf(int conv_num)
+double conv_print(int conv_num, bool ctf)
 {
-	
-	return SUCCESS;
-}
-int conv_ftc(int conv_num)
-{
-	return SUCCESS;
+	double conv_res = 0;
+
+	if (ctf) {
+		conv_res = CONV_CTF(conv_num);
+		printf("Celcius: %d, Farhenheit: %f\n", conv_num, conv_res);
+	} else {
+		conv_res = CONV_FTC(conv_num);
+		printf("Farhenheit: %d, Celcius: %f\n", conv_num, conv_res);
+	}
+
+	return conv_res;
 }

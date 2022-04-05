@@ -5,7 +5,7 @@
 #include <limits.h>
 #include <errno.h>
 #include <string.h>
-#include <bool.h>
+#include <stdbool.h>
 #include "convNum.h"
 
 #define _usrLikely(x)   (__builtin_expect(!!(x), 1))
@@ -17,9 +17,11 @@
 #define SUCCESS 0
 #define FAILURE -1
 
-int menu_input(bool *ctf, bool *exit);
+/* temp conversion equations */
+#define CONV_CTF(conv_num) (((conv_num)*(9.0/5.0)) + 32) /* C to F */
+#define CONV_FTC(conv_num) (((conv_num)-32) * (5.0/9.0)) /* F to C */
+
+int menu_input(bool *ctf, bool *exit_flag);
 void clear_stdin();
 char* fgets_input(FILE *fptr);
-int conv_ctf(int conv_num);
-int conv_ftc(int conv_num);
-int conv_either(int conv_num, bool ctf);
+double conv_print(int conv_num, bool ctf);
