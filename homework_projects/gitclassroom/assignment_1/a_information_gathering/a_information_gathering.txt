@@ -1,0 +1,47 @@
+A. Information Gathering
+
+1. A. List the BUGS when using the system call
+	- it is not possible to enable signal-driven I/O by specifying O_ASYNC.
+	  use fcntl() to enable the flag.
+	- Must check for two different error codes, EISDIR and ENOENT, when trying
+	  to determine whether the kernel supports O_TMPFILE.
+	- When both O_CREAT and O_DIRECTORY are specified in flags and the file 
+	  specified by pathname does not exist, open() will create a regular file
+	  ignoreing O_DIRECTORY.
+
+   B. What files needto be included to use this function?
+	- sys/types.h
+	- sys/stat.h
+	- fcntl.h
+   
+   C. List the first three related system calls to open()
+    - chmod()
+	- chown()
+	- close()
+
+   D. Choose one of the system calls and list its bugs and files which need to
+	  be included.
+	- chmod() bugs
+		- no bugs section in this man page.
+	- chmod() headers
+		- sys/stat.h
+
+2. A. usb_device
+	- int devnum
+	- char devpath[16]
+	- u32 route
+	- enum usb_device_state state
+	- enum usb_device_speed speed
+
+   B. fifth members header declaration is in ch9.h line 1159-1166
+      Kernel version 5.17.1
+
+   C. enum usb_device_speed {
+	          USB_SPEED_UNKNOWN = 0, /* enumerating */
+			  USB_SPEED_LOW, USB_SPEED_FULL, /* usb 1.1 */
+	          USB_SPEED_HIGH, /* usb 2.0 */
+	          USB_SPEED_WIRELESS, /* wireless (usb 2.5) */
+	          USB_SPEED_SUPER, /* usb 3.0 */
+	          USB_SPEED_SUPER_PLUS, /* usb 3.1 */
+	  }
+

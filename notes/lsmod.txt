@@ -1,0 +1,3 @@
+ls but for modules.
+
+lsmod

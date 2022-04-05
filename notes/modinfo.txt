@@ -1,0 +1,3 @@
+modinfo [filename]
+
+shows driver info filled with module macros and other information

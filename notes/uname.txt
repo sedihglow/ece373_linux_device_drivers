@@ -1,0 +1,5 @@
+uname -r 
+kernel version info
+
+uname -a
+more information like processor, time etc.

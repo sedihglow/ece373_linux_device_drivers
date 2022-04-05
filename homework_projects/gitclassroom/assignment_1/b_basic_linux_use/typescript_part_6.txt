@@ -1,0 +1,15 @@
+Script started on 2022-04-04 17:17:22-0700
+]0;j@j-X580VD: ~/ece373_linux_device_drivers/homework_projects/gitclassroom/assignment_1/b_basic_linux_use[01;32mj@j-X580VD[00m:[01;34m~/ece373_linux_device_drivers/homework_projects/gitclassroom/assignment_1/b_basic_linux_use[00m$ pwd
+/home/j/ece373_linux_device_drivers/homework_projects/gitclassroom/assignment_1/b_basic_linux_use
+]0;j@j-X580VD: ~/ece373_linux_device_drivers/homework_projects/gitclassroom/assignment_1/b_basic_linux_use[01;32mj@j-X580VD[00m:[01;34m~/ece373_linux_device_drivers/homework_projects/gitclassroom/assignment_1/b_basic_linux_use[00m$ ls -la
+total 12
+drwxrwxr-x 3 j j 4096 Apr  4 17:17 [0m[01;34m.[0m
+drwxrwxr-x 4 j j 4096 Apr  4 17:15 [01;34m..[0m
+drwxrwxr-x 2 j j 4096 Apr  4 17:16 [01;34mECE373[0m
+-rw-rw-r-- 1 j j    0 Apr  4 17:17 typescript
+]0;j@j-X580VD: ~/ece373_linux_device_drivers/homework_projects/gitclassroom/assignment_1/b_basic_linux_use[01;32mj@j-X580VD[00m:[01;34m~/ece373_linux_device_drivers/homework_projects/gitclassroom/assignment_1/b_basic_linux_use[00m$ mkdir ECE373
+mkdir: cannot create directory ‘ECE373’: File exists
+]0;j@j-X580VD: ~/ece373_linux_device_drivers/homework_projects/gitclassroom/assignment_1/b_basic_linux_use[01;32mj@j-X580VD[00m:[01;34m~/ece373_linux_device_drivers/homework_projects/gitclassroom/assignment_1/b_basic_linux_use[00m$ cd ECE373/
+]0;j@j-X580VD: ~/ece373_linux_device_drivers/homework_projects/gitclassroom/assignment_1/b_basic_linux_use/ECE373[01;32mj@j-X580VD[00m:[01;34m~/ece373_linux_device_drivers/homework_projects/gitclassroom/assignment_1/b_basic_linux_use/ECE373[00m$ exit
+
+Script done on 2022-04-04 17:17:52-0700
