@@ -1,2 +1,3 @@
 dmesg
 dmesg -T (time stamp stuff with dmessage)
+dmsg -T | tail -10
