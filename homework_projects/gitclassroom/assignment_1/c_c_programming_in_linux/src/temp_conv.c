@@ -176,7 +176,7 @@ char* fgets_input(FILE *fptr)
 	in_len += 1; /* include full size not index */
 	input = CALLOC_ARRAY(char, in_len);
 	if (_usrUnlikely(!input)) {
-		perror("Failed to allocate input array");
+		perror("[error] Failed to allocate input array:");
 		return NULL;
 	}
 	
