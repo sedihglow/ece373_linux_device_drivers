@@ -46,7 +46,7 @@ int menu_input(bool *ctf, int *exit_flag)
 	char *input = NULL;
 	int in_val = INT_MAX;
 
-	if (!ctf || !exit_flag) {
+	if (_usrUnlikely(!ctf || !exit_flag)) {
 		errno = EINVAL;
 		fprintf(stderr, "[error] ctf or exit was not allocated before "
 						"entering.\n");
@@ -62,8 +62,8 @@ int menu_input(bool *ctf, int *exit_flag)
 		fflush(stdout);
 
 		input = fgets_input(stdin);
-		if (!input) {
-			if (errno) {
+		if (_usrUnlikely(!input)) {
+			if (_usrUnlikely(errno)) {
 				fprintf(stderr, "[error] failed to get user input\n");
 				return INT_MIN;
 			}
@@ -73,7 +73,7 @@ int menu_input(bool *ctf, int *exit_flag)
 		}
 
 		in_val = convInt(input, CN_BASE_10 | CN_NOEXIT_ | CN_GT_Z, "in_val, menu");
-		if (errno) {
+		if (_usrUnlikely(errno)) {
 			free(input);
 			fprintf(stderr, "[error] failed to convert input\n");
 			return INT_MIN;
@@ -82,15 +82,15 @@ int menu_input(bool *ctf, int *exit_flag)
 		print_verbose("in_val: %d\n", in_val);
 
 		free(input);
-	} while (in_val > MENU_OPTIONS);
+	} while (_usrUnlikely(in_val > MENU_OPTIONS));
 
 	if (in_val == C_TO_F) {
 		printf("Enter Celcius temperature: ");
 		fflush(stdout);
 
 		input = fgets_input(stdin);
-		if (!input) {
-			if (errno) {
+		if (_usrUnlikely(!input)) {
+			if (_usrUnlikely(errno)) {
 				fprintf(stderr, "[error] failed to get user input\n");
 				return INT_MIN;
 			}
@@ -100,7 +100,7 @@ int menu_input(bool *ctf, int *exit_flag)
 		}
 
 		in_val = convInt(input, CN_BASE_10 | CN_NOEXIT_, "in_val, CTF");
-		if (errno) {
+		if (_usrUnlikely(errno)) {
 			free(input);
 			fprintf(stderr, "[error] failed to convert input\n");
 			return INT_MIN;
@@ -118,8 +118,8 @@ int menu_input(bool *ctf, int *exit_flag)
 		fflush(stdout);
 
 		input = fgets_input(stdin);
-		if (!input) {
-			if (errno) {
+		if (_usrUnlikely(!input)) {
+			if (_usrUnlikely(errno)) {
 				fprintf(stderr, "[error] failed to get user input\n");
 				return INT_MIN;
 			}
@@ -129,7 +129,7 @@ int menu_input(bool *ctf, int *exit_flag)
 		}
 
 		in_val = convInt(input, CN_BASE_10 | CN_NOEXIT_, "in_val, FTC");
-		if (errno) {
+		if (_usrUnlikely(errno)) {
 			free(input);
 			fprintf(stderr, "[error] failed to convert input\n");
 			return INT_MIN;
@@ -163,9 +163,9 @@ char* fgets_input(FILE *fptr)
 	size_t in_len = 0;
 
 	fgets(buff, BUFF_SIZE, fptr);
-	if (buff[0] != '\0') {
+	if (_usrUnlikely(buff[0] != '\0')) {
 		in_len = strnlen(buff, BUFF_SIZE) - 1; /* set to last index */
-		if (buff[in_len] == '\n')
+		if (_usrLikely(buff[in_len] == '\n'))
 			buff[in_len] = '\0';
 		else
 			clear_stdin();
@@ -175,7 +175,7 @@ char* fgets_input(FILE *fptr)
 	
 	in_len += 1; /* include full size not index */
 	input = CALLOC_ARRAY(char, in_len);
-	if (!input) {
+	if (_usrUnlikely(!input)) {
 		perror("Failed to allocate input array");
 		return NULL;
 	}
