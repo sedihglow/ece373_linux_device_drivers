@@ -1,3 +1,4 @@
 dmesg
 dmesg -T (time stamp stuff with dmessage)
 dmseg -T | tail -10
+dmesg | tail -10 | cat > outfile.txt
