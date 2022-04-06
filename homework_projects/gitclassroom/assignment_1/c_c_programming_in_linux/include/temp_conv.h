@@ -66,5 +66,7 @@ void print_verbose(const char *fstring, ...);
 int menu_input(bool *ctf, int *exit_flag);
 void clear_stdin();
 char* fgets_input(FILE *fptr);
+char* get_input(int *exit_flag);
+int get_usr_temp(int mopt, bool *ctf, int *exit_flag);
 
 double conv_print(int conv_num, bool ctf);
