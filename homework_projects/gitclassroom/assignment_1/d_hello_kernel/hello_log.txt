@@ -1,0 +1,10 @@
+[177885.086685] IPv6: ADDRCONF(NETDEV_UP): wlp3s0: link is not ready
+[177888.540216] wlp3s0: authenticate with ac:86:74:f2:e1:82
+[177888.549318] wlp3s0: send auth to ac:86:74:f2:e1:82 (try 1/3)
+[177888.559920] wlp3s0: authenticated
+[177888.565457] wlp3s0: associate with ac:86:74:f2:e1:82 (try 1/3)
+[177888.571388] wlp3s0: RX AssocResp from ac:86:74:f2:e1:82 (capab=0x421 status=0 aid=1)
+[177888.575073] wlp3s0: associated
+[177888.576063] IPv6: ADDRCONF(NETDEV_CHANGE): wlp3s0: link becomes ready
+[187647.534849] Hello, kernel
+[187835.229813] Goodbye, kernel
