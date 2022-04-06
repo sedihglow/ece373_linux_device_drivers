@@ -35,4 +35,4 @@ clean:					# clean the directory
 run:					# run the program as follows
 						$(info -- Running Program --)
 						make
-						./bin/temp_conv.out
+						./bin/temp_conv.out -v

@@ -4,9 +4,9 @@ int main(int argc, char *argv[])
 {
 	int opt;
 	int conv_num = 0;
+	int exit_flag = false;
 	bool ctf = true; /* celcius to fahrenheit flag */
-	bool exit_flag = false;
-	bool verbose = false;
+	bool use_cmd_args = false;
 	
 	/* 
 	 * if options c and f are both in argv conv_num will be the last
@@ -16,16 +16,18 @@ int main(int argc, char *argv[])
 		switch (opt) {
 		case 'c':
 			ctf = true;
+			use_cmd_args = true;
 			conv_num = convInt(optarg, CN_BASE_10, "conv_num, C");
 			break;
 
 		case 'f':
 			ctf = false;
+			use_cmd_args = true;
 			conv_num = convInt(optarg, CN_BASE_10, "conv_num, F");
 			break;
 		
 		case 'v':
-			verbose = true;
+			set_verbose(true);
 			break;
 
 		default: /* ? */
@@ -35,7 +37,7 @@ int main(int argc, char *argv[])
 		}
 	}
 
-	if (argc > 1) {
+	if (use_cmd_args) { 
 		/* use command line arguments */
 		conv_print(conv_num, ctf);
 		exit(EXIT_SUCCESS);
@@ -49,7 +51,7 @@ int main(int argc, char *argv[])
 			exit(EXIT_FAILURE);
 		}
 
-		if (!exit_flag)
+		if (!exit_flag && exit_flag != NO_INPUT)
 			conv_print(conv_num, ctf);
 	} while (!exit_flag);
 	

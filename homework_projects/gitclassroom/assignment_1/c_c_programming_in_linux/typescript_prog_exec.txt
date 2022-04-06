@@ -1,0 +1,45 @@
+Script started on 2022-04-05 17:35:40-0700
+]0;j@j-X580VD: ~/ece373_linux_device_drivers/homework_projects/gitclassroom/assignment_1/c_c_programming_in_linux[01;32mj@j-X580VD[00m:[01;34m~/ece373_linux_device_drivers/homework_projects/gitclassroom/assignment_1/c_c_programming_in_linux[00m$ make
+gcc -I ./include -I -c -Wall -Wextra -pthread  -m64 -O0 -g -pedantic  -o src/temp_conv.o -c src/temp_conv.c
+gcc -I ./include -I -c -Wall -Wextra -pthread  -m64 -O0 -g -pedantic  -o src/main.o -c src/main.c
+gcc -I ./include -I -c -Wall -Wextra -pthread  -m64 -O0 -g -pedantic  -o src/convNum.o -c src/convNum.c
+gcc ./src/temp_conv.o ./src/main.o ./src/convNum.o -o bin/temp_conv.out -pthread -m64
+]0;j@j-X580VD: ~/ece373_linux_device_drivers/homework_projects/gitclassroom/assignment_1/c_c_programming_in_linux[01;32mj@j-X580VD[00m:[01;34m~/ece373_linux_device_drivers/homework_projects/gitclassroom/assignment_1/c_c_programming_in_linux[00m$ maker[K run
+-- Running Program --
+make
+make[1]: Entering directory '/home/j/ece373_linux_device_drivers/homework_projects/gitclassroom/assignment_1/c_c_programming_in_linux'
+make[1]: Nothing to be done for 'all'.
+make[1]: Leaving directory '/home/j/ece373_linux_device_drivers/homework_projects/gitclassroom/assignment_1/c_c_programming_in_linux'
+./bin/temp_conv.out -v
+
+Please select which type of unit you want to convert.
+1. Celecius to Farhenheit
+2. Farhenheit to Celcius
+3. exit
+Enter number: 1
+[verbose] in_val: 1
+Enter Celcius temperature: 0
+[verbose] in_val: 0
+
+Celcius: 0, Farhenheit: 32.000000
+
+Please select which type of unit you want to convert.
+1. Celecius to Farhenheit
+2. Farhenheit to Celcius
+3. exit
+Enter number: 2
+[verbose] in_val: 2
+Enter Farenheit temperature: 10
+[verbose] in_val: 10
+
+Farhenheit: 10, Celcius: -12.222222
+
+Please select which type of unit you want to convert.
+1. Celecius to Farhenheit
+2. Farhenheit to Celcius
+3. exit
+Enter number: 3
+[verbose] in_val: 3
+]0;j@j-X580VD: ~/ece373_linux_device_drivers/homework_projects/gitclassroom/assignment_1/c_c_programming_in_linux[01;32mj@j-X580VD[00m:[01;34m~/ece373_linux_device_drivers/homework_projects/gitclassroom/assignment_1/c_c_programming_in_linux[00m$ exit
+
+Script done on 2022-04-05 17:36:15-0700

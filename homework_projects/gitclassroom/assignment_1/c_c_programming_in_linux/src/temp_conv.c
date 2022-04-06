@@ -1,6 +1,8 @@
 #include "temp_conv.h"
 
-#define BUFF_SIZE 100
+#define BUFF_SIZE   100
+#define MSG_SIZE    (100-VERBOSE_LEN)
+#define VERBOSE_LEN 10
 
 /* menu input definitions for the menu options */
 #define MENU_OPTIONS 3
@@ -8,14 +10,46 @@
 #define F_TO_C       2
 #define MENU_EXIT    3
 
-int menu_input(bool *ctf, bool *exit_flag)
+/* global verbose flag */
+static bool verbose = false;
+
+static bool get_verbose()
+{
+	return verbose;
+}
+
+void set_verbose(bool flag)
+{
+	verbose = flag;
+}
+
+void print_verbose(const char *fstring, ...)
+{
+	va_list varg_list;
+	char final[BUFF_SIZE] = {'\0'};		/* final msg to be printed */
+	char msg[MSG_SIZE] = {'\0'};		/* fstring msg with formating */
+	char vs[VERBOSE_LEN] = "[verbose]"; /* verbose tag */
+
+    va_start(varg_list, fstring);
+
+	if (get_verbose()) {
+		vsnprintf(msg, MSG_SIZE, fstring, varg_list);
+		snprintf(final, BUFF_SIZE, "%s %s", vs, msg);
+		printf("%s", final);
+	}
+	
+	va_end(varg_list);
+}
+
+int menu_input(bool *ctf, int *exit_flag)
 {
 	char *input = NULL;
-	int in_val;
+	int in_val = INT_MAX;
 
 	if (!ctf || !exit_flag) {
 		errno = EINVAL;
-		fprintf(stderr, "ctf or exit was not allocated before entering.");
+		fprintf(stderr, "[error] ctf or exit was not allocated before "
+						"entering.\n");
 		return INT_MIN;
 	}
 	
@@ -28,16 +62,26 @@ int menu_input(bool *ctf, bool *exit_flag)
 		fflush(stdout);
 
 		input = fgets_input(stdin);
-		if (errno) {
-			fprintf(stderr, "failed to get user input");
+		if (!input) {
+			if (errno) {
+				fprintf(stderr, "[error] failed to get user input\n");
+				return INT_MIN;
+			}
+			printf("\n[warning] no input provided.\n");
+			*exit_flag = NO_INPUT;
 			return INT_MIN;
 		}
 
 		in_val = convInt(input, CN_BASE_10 | CN_NOEXIT_ | CN_GT_Z, "in_val, menu");
 		if (errno) {
-			fprintf(stderr, "failed to convert input");
+			free(input);
+			fprintf(stderr, "[error] failed to convert input\n");
 			return INT_MIN;
 		}
+
+		print_verbose("in_val: %d\n", in_val);
+
+		free(input);
 	} while (in_val > MENU_OPTIONS);
 
 	if (in_val == C_TO_F) {
@@ -45,18 +89,28 @@ int menu_input(bool *ctf, bool *exit_flag)
 		fflush(stdout);
 
 		input = fgets_input(stdin);
-		if (errno) {
-			fprintf(stderr, "failed to get user input");
+		if (!input) {
+			if (errno) {
+				fprintf(stderr, "[error] failed to get user input\n");
+				return INT_MIN;
+			}
+			printf("\n[warning] no input provided.\n");
+			*exit_flag = NO_INPUT;
 			return INT_MIN;
 		}
 
 		in_val = convInt(input, CN_BASE_10 | CN_NOEXIT_, "in_val, CTF");
 		if (errno) {
-			fprintf(stderr, "failed to convert input");
+			free(input);
+			fprintf(stderr, "[error] failed to convert input\n");
 			return INT_MIN;
 		}
 		
-		*exit_flag = false;
+		print_verbose("in_val: %d\n", in_val);
+
+		free(input);
+
+		*exit_flag = EXIT_FALSE;
 		*ctf = true;
 		return in_val;
 	} else if (in_val == F_TO_C) {
@@ -64,24 +118,36 @@ int menu_input(bool *ctf, bool *exit_flag)
 		fflush(stdout);
 
 		input = fgets_input(stdin);
-		if (errno) {
-			fprintf(stderr, "failed to get user input");
+		if (!input) {
+			if (errno) {
+				fprintf(stderr, "[error] failed to get user input\n");
+				return INT_MIN;
+			}
+			printf("\n[warning] no input provided.\n");
+			*exit_flag = NO_INPUT;
 			return INT_MIN;
 		}
 
 		in_val = convInt(input, CN_BASE_10 | CN_NOEXIT_, "in_val, FTC");
 		if (errno) {
-			fprintf(stderr, "failed to convert input");
+			free(input);
+			fprintf(stderr, "[error] failed to convert input\n");
 			return INT_MIN;
 		}
+
+		print_verbose("in_val: %d\n", in_val);
 		
-		*exit_flag = false;
+		free(input);
+
+		*exit_flag = EXIT_FALSE;
 		*ctf = false;
 		return in_val;
 	} else { /* exit */
-		*exit_flag = true;
+		*exit_flag = EXIT_TRUE;
 		return INT_MAX;
 	}
+
+	return in_val;
 }
 
 void clear_stdin()
@@ -97,13 +163,17 @@ char* fgets_input(FILE *fptr)
 	size_t in_len = 0;
 
 	fgets(buff, BUFF_SIZE, fptr);
-	in_len = strnlen(buff, BUFF_SIZE) - 1;
-	if (buff[in_len] == '\n')
-		buff[in_len] = '\0';
-	else
-		clear_stdin();
+	if (buff[0] != '\0') {
+		in_len = strnlen(buff, BUFF_SIZE) - 1; /* set to last index */
+		if (buff[in_len] == '\n')
+			buff[in_len] = '\0';
+		else
+			clear_stdin();
+	} else {
+		return NULL;
+	}
 	
-	in_len += 1; /* include '\0' */
+	in_len += 1; /* include full size not index */
 	input = CALLOC_ARRAY(char, in_len);
 	if (!input) {
 		perror("Failed to allocate input array");
@@ -121,10 +191,10 @@ double conv_print(int conv_num, bool ctf)
 
 	if (ctf) {
 		conv_res = CONV_CTF(conv_num);
-		printf("Celcius: %d, Farhenheit: %f\n", conv_num, conv_res);
+		printf("\nCelcius: %d, Farhenheit: %f\n", conv_num, conv_res);
 	} else {
 		conv_res = CONV_FTC(conv_num);
-		printf("Farhenheit: %d, Celcius: %f\n", conv_num, conv_res);
+		printf("\nFarhenheit: %d, Celcius: %f\n", conv_num, conv_res);
 	}
 
 	return conv_res;
