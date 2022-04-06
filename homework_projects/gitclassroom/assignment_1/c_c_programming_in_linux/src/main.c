@@ -66,7 +66,7 @@ int main(int argc, char *argv[])
 
 		if (!exit_flag && exit_flag != NO_INPUT)
 			conv_print(conv_num, ctf);
-	} while (!exit_flag || exit_flag == NO_INPUT);
+	} while (_usrLikely(!exit_flag || exit_flag == NO_INPUT));
 	
 	exit(EXIT_SUCCESS);
 }
