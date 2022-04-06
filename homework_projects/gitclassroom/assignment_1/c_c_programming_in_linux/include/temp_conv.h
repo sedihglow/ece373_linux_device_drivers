@@ -8,6 +8,7 @@
 #include <stdbool.h>
 #include <stdarg.h>
 #include "convNum.h"
+#include "err_handle.h"
 
 #define _usrLikely(x)   (__builtin_expect(!!(x), 1))
 #define _usrUnlikely(x) (__builtin_expect(!!(x), 0))

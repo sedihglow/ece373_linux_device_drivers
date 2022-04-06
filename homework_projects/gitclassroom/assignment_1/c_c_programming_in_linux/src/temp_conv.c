@@ -48,8 +48,7 @@ int menu_input(bool *ctf, int *exit_flag)
 
 	if (_usrUnlikely(!ctf || !exit_flag)) {
 		errno = EINVAL;
-		fprintf(stderr, "[error] ctf or exit was not allocated before "
-						"entering.\n");
+		err_msg("ctf or exit was not allocated before entering.");
 		return INT_MIN;
 	}
 	
@@ -64,7 +63,7 @@ int menu_input(bool *ctf, int *exit_flag)
 		input = fgets_input(stdin);
 		if (_usrUnlikely(!input)) {
 			if (_usrUnlikely(errno)) {
-				fprintf(stderr, "[error] failed to get user input\n");
+				err_msg("[error] failed to get user input");
 				return INT_MIN;
 			}
 			printf("\n[warning] no input provided.\n");
@@ -75,7 +74,7 @@ int menu_input(bool *ctf, int *exit_flag)
 		in_val = convInt(input, CN_BASE_10 | CN_NOEXIT_ | CN_GT_Z, "in_val, menu");
 		if (_usrUnlikely(errno)) {
 			free(input);
-			fprintf(stderr, "[error] failed to convert input\n");
+			err_msg("failed to convert input");
 			return INT_MIN;
 		}
 
@@ -91,10 +90,10 @@ int menu_input(bool *ctf, int *exit_flag)
 		input = fgets_input(stdin);
 		if (_usrUnlikely(!input)) {
 			if (_usrUnlikely(errno)) {
-				fprintf(stderr, "[error] failed to get user input\n");
+				err_msg("failed to get user input");
 				return INT_MIN;
 			}
-			printf("\n[warning] no input provided.\n");
+			printf("\n[warning] no input provided.");
 			*exit_flag = NO_INPUT;
 			return INT_MIN;
 		}
@@ -102,7 +101,7 @@ int menu_input(bool *ctf, int *exit_flag)
 		in_val = convInt(input, CN_BASE_10 | CN_NOEXIT_, "in_val, CTF");
 		if (_usrUnlikely(errno)) {
 			free(input);
-			fprintf(stderr, "[error] failed to convert input\n");
+			err_msg("failed to convert input");
 			return INT_MIN;
 		}
 		
@@ -120,7 +119,7 @@ int menu_input(bool *ctf, int *exit_flag)
 		input = fgets_input(stdin);
 		if (_usrUnlikely(!input)) {
 			if (_usrUnlikely(errno)) {
-				fprintf(stderr, "[error] failed to get user input\n");
+				err_msg("failed to get user input");
 				return INT_MIN;
 			}
 			printf("\n[warning] no input provided.\n");
@@ -131,7 +130,7 @@ int menu_input(bool *ctf, int *exit_flag)
 		in_val = convInt(input, CN_BASE_10 | CN_NOEXIT_, "in_val, FTC");
 		if (_usrUnlikely(errno)) {
 			free(input);
-			fprintf(stderr, "[error] failed to convert input\n");
+			err_msg("failed to convert input");
 			return INT_MIN;
 		}
 
@@ -176,7 +175,7 @@ char* fgets_input(FILE *fptr)
 	in_len += 1; /* include full size not index */
 	input = CALLOC_ARRAY(char, in_len);
 	if (_usrUnlikely(!input)) {
-		perror("[error] Failed to allocate input array:");
+		err_msg("Failed to allocate input array");
 		return NULL;
 	}
 	
