@@ -5,10 +5,10 @@
 #define VERBOSE_LEN 10
 
 /* menu input definitions for the menu options */
-#define MENU_OPTIONS 3
-#define C_TO_F       1
-#define F_TO_C       2
-#define MENU_EXIT    3
+#define MENU_OPTIONS 3 /* total number of menu options in menu_input() */
+#define C_TO_F       1 /* flag for celcius to fahrenheit */
+#define F_TO_C       2 /* flag for fahrenheit to celcius */
+#define MENU_EXIT    3 /* flag to exit the menu conversion loop */
 
 /* global verbose flag */
 static bool verbose = false;
@@ -41,6 +41,19 @@ void print_verbose(const char *fstring, ...)
 	va_end(varg_list);
 }
 
+/*
+ * Gets user input for which conversion to do, prompts for a temperature input
+ * then returns.
+ *
+ * returns: This function returns 3 values.
+ *			- returns in_val as the function return which is the value to convert.
+ *			- sets the ctf flag pointer to identify if the in_val is going to be
+ *			  C to F or F to C.
+ *			- sets exit flag to EXIT_FALSE when we do not want to exit the program.
+ *			  sets exit flag to EXIT_TRUE when we want to exit the program.
+ *			  sets exit flag to NO_INPUT when no input was given. (EOF signal)
+ */
+
 int menu_input(bool *ctf, int *exit_flag)
 {
 	char *input = NULL;
@@ -68,7 +81,16 @@ int menu_input(bool *ctf, int *exit_flag)
 			}
 			printf("\n[warning] no input provided.\n");
 			*exit_flag = NO_INPUT;
-			return INT_MIN;
+			return INT_MAX;
+		}
+		
+		/* if no number was provided and only enter was hit on input */
+		if (input[0] == '\0') {
+			free(input);
+			printf("[warning] no number provided");
+
+			*exit_flag = NO_INPUT;
+			return INT_MAX;
 		}
 
 		in_val = convInt(input, CN_BASE_10 | CN_NOEXIT_ | CN_GT_Z, "in_val, menu");
@@ -77,7 +99,7 @@ int menu_input(bool *ctf, int *exit_flag)
 			err_msg("failed to convert input");
 			return INT_MIN;
 		}
-
+		
 		print_verbose("in_val: %d\n", in_val);
 
 		free(input);
@@ -95,7 +117,16 @@ int menu_input(bool *ctf, int *exit_flag)
 			}
 			printf("\n[warning] no input provided.");
 			*exit_flag = NO_INPUT;
-			return INT_MIN;
+			return INT_MAX;
+		}
+
+		/* if no number was provided and only enter was hit on input */
+		if (input[0] == '\0') {
+			free(input);
+			printf("[warning] no number provided");
+
+			*exit_flag = NO_INPUT;
+			return INT_MAX;
 		}
 
 		in_val = convInt(input, CN_BASE_10 | CN_NOEXIT_, "in_val, CTF");
@@ -124,7 +155,16 @@ int menu_input(bool *ctf, int *exit_flag)
 			}
 			printf("\n[warning] no input provided.\n");
 			*exit_flag = NO_INPUT;
-			return INT_MIN;
+			return INT_MAX;
+		}
+
+		/* if no number was provided and only enter was hit on input */
+		if (input[0] == '\0') {
+			free(input);
+			printf("[warning] no number provided");
+
+			*exit_flag = NO_INPUT;
+			return INT_MAX;
 		}
 
 		in_val = convInt(input, CN_BASE_10 | CN_NOEXIT_, "in_val, FTC");

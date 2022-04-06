@@ -26,7 +26,7 @@
 /* definitions for the exit_flag in menu_input */
 #define EXIT_FALSE 0
 #define EXIT_TRUE  1
-#define NO_INPUT   3
+#define NO_INPUT   2
 
 /* 
  * APPLY_FUNCT() : vectorizes a function funct
