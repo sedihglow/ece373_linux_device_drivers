@@ -32,7 +32,7 @@ int main(int argc, char *argv[])
 
 		default: /* ? */
 			errno = EINVAL;
-			err_exit("Invalid option or missing argument");
+			errExit("Invalid option or missing argument");
 		}
 	}
 
@@ -46,7 +46,7 @@ int main(int argc, char *argv[])
 		/* no arguments, get user input */
 		conv_num = menu_input(&ctf, &exit_flag);
 		if (errno)
-			err_exit("menu_input failed to complete: ");
+			errExit("menu_input failed to complete: ");
 
 		if (!exit_flag && exit_flag != NO_INPUT)
 			conv_print(conv_num, ctf);
