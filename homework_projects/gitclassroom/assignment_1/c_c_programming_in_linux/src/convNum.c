@@ -90,7 +90,7 @@ long long convNum(const char *fname, const char *arg, register int32_t flags, /*
             errno = EINVAL;
             fprintf(stderr,"\nNonnumeric characters.\n");
             return 0;
-        } else{
+        } else {
             convFail(fname, "nonnumeric characters", arg, name);
 		}
     }

@@ -5,10 +5,15 @@
 #define VERBOSE_LEN 10
 
 /* menu input definitions for the menu options */
-#define MENU_OPTIONS 3 /* total number of menu options in menu_input() */
-#define C_TO_F       1 /* flag for celcius to fahrenheit */
-#define F_TO_C       2 /* flag for fahrenheit to celcius */
-#define MENU_EXIT    3 /* flag to exit the menu conversion loop */
+#define MENU_OPTIONS  3 /* total number of menu options in menu_input() */
+#define LOWEST_OPTION 1
+#define C_TO_F        1 /* flag for celcius to fahrenheit */
+#define F_TO_C        2 /* flag for fahrenheit to celcius */
+#define MENU_EXIT     3 /* flag to exit the menu conversion loop */
+
+/* temp conversion equations */
+#define CONV_CTF(_conv_num) (((_conv_num)*(9.0/5.0)) + 32) /* C to F */
+#define CONV_FTC(_conv_num) (((_conv_num)-32) * (5.0/9.0)) /* F to C */
 
 /* global verbose flag */
 static bool verbose = false;
@@ -59,22 +64,23 @@ void print_verbose(const char *fstring, ...)
  *			- sets exit flag to EXIT_FALSE when we do not want to exit the program.
  *			  sets exit flag to EXIT_TRUE when we want to exit the program.
  *			  sets exit flag to NO_INPUT when no input was given. (EOF signal)
- *			- returns INT_MAX when exit_flag is set to TRUE and is a clean exit
+ *			- returns DBL_MAX when exit_flag is set to TRUE and is a clean exit
  * error: 
- *		    - On error, INT_MIN is returned.
+ *		    - On error, DBL_MIN is returned.
  *
- * NOTE: INT_MIN is also returned on EOF
+ * NOTE: DBL_MIN is also returned on EOF
  */
 
-int menu_input(bool *ctf, int *exit_flag)
+double menu_input(bool *ctf, int *exit_flag)
 {
 	char *input = NULL;
 	int in_val = INT_MAX;
+	double in_dbl = DBL_MAX;
 
 	if (_usrUnlikely(!ctf || !exit_flag)) {
 		errno = EINVAL;
 		err_msg("ctf or exit was not allocated before entering.");
-		return INT_MIN;
+		return DBL_MIN;
 	}
 	
 	do {
@@ -87,28 +93,22 @@ int menu_input(bool *ctf, int *exit_flag)
 
 		input = get_input(exit_flag);
 		if (!input)
-			return INT_MIN;
+			return DBL_MIN;
 
 		in_val = convInt(input, CN_BASE_10 | CN_NOEXIT_ | CN_GT_Z, "in_val, menu");
-		if (_usrUnlikely(errno)) {
-			free(input);
+		if (_usrUnlikely(errno))
 			err_msg("failed to convert input");
-			*exit_flag = EXIT_TRUE;
-			return INT_MIN;
-		}
 		
-		print_verbose("in_val: %d\n", in_val);
-
 		free(input);
-	} while (_usrUnlikely(in_val > MENU_OPTIONS));
+	} while (_usrUnlikely(in_val > MENU_OPTIONS || in_val < LOWEST_OPTION));
 
-	in_val = get_usr_temp(in_val, ctf, exit_flag);
+	in_dbl = get_usr_temp(in_val, ctf, exit_flag);
 	if (errno) {
 		err_msg("failed to get temp from input.");
-		return INT_MIN;
+		return DBL_MIN;
 	}
 
-	return in_val;
+	return in_dbl;
 }
 
 /*
@@ -211,17 +211,17 @@ char* fgets_input(FILE *fptr)
  * takes a menu input mopt from menu_input() in mopt. ctf and exit flags are
  * set for calling function.
  *
- * returns: INT_MIN on error or on EOF
+ * returns: DBL_MIN on error or on EOF
  *			in_val on success, temp value given by input
- *			sets ctf flag, celcius to fahrenheit.
+ *			sets ctf flag, celcius to fahrenheit or vice versa.
  *			sets exit_flag for menu_input() function
  *
  *	errors: errno is set on error from functions called.
  */
-int get_usr_temp(int mopt, bool *ctf, int *exit_flag)
+double get_usr_temp(int mopt, bool *ctf, int *exit_flag)
 {
 	char *input = NULL;
-	int in_val = 0;
+	double in_val = DBL_MAX;
 
 	if (mopt == C_TO_F) {
 		printf("Enter Celcius temperature: ");
@@ -229,17 +229,17 @@ int get_usr_temp(int mopt, bool *ctf, int *exit_flag)
 
 		input = get_input(exit_flag);
 		if (!input)
-			return INT_MIN;
+			return DBL_MIN;
 
-		in_val = convInt(input, CN_BASE_10 | CN_NOEXIT_, "in_val, CTF");
+		in_val = conv_dbl(input, CN_BASE_10 | CN_NOEXIT_, "in_val, CTF");
 		if (_usrUnlikely(errno)) {
 			free(input);
 			err_msg("failed to convert input");
 			*exit_flag = EXIT_TRUE;
-			return INT_MIN;
+			return DBL_MIN;
 		}
 		
-		print_verbose("in_val: %d\n", in_val);
+		print_verbose("in_val: %f\n", in_val);
 
 		free(input);
 
@@ -252,17 +252,17 @@ int get_usr_temp(int mopt, bool *ctf, int *exit_flag)
 
 		input = get_input(exit_flag);
 		if (!input)
-			return INT_MIN;
+			return DBL_MIN;
 
-		in_val = convInt(input, CN_BASE_10 | CN_NOEXIT_, "in_val, FTC");
+		in_val = conv_dbl(input, CN_BASE_10 | CN_NOEXIT_, "in_val, FTC");
 		if (_usrUnlikely(errno)) {
 			free(input);
 			err_msg("failed to convert input");
 			*exit_flag = EXIT_TRUE;
-			return INT_MIN;
+			return DBL_MIN;
 		}
 
-		print_verbose("in_val: %d\n", in_val);
+		print_verbose("in_val: %f\n", in_val);
 		
 		free(input);
 
@@ -271,21 +271,21 @@ int get_usr_temp(int mopt, bool *ctf, int *exit_flag)
 		return in_val;
 	} else { /* exit */
 		*exit_flag = EXIT_TRUE;
-		return INT_MAX;
+		return DBL_MAX;
 	}
 	return in_val;
 }
 
-double conv_print(int conv_num, bool ctf)
+double conv_print(double conv_num, bool ctf)
 {
 	double conv_res = 0;
 
 	if (ctf) {
 		conv_res = CONV_CTF(conv_num);
-		printf("\nCelcius: %d, Farhenheit: %f\n", conv_num, conv_res);
+		printf("\nCelcius: %0.2f, Farhenheit: %0.2f\n", conv_num, conv_res);
 	} else {
 		conv_res = CONV_FTC(conv_num);
-		printf("\nFarhenheit: %d, Celcius: %f\n", conv_num, conv_res);
+		printf("\nFarhenheit: %0.2f, Celcius: %0.2f\n", conv_num, conv_res);
 	}
 
 	return conv_res;

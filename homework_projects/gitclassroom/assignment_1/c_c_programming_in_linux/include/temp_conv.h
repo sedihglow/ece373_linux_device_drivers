@@ -7,6 +7,7 @@
 #include <string.h>
 #include <stdbool.h>
 #include <stdarg.h>
+#include <float.h>
 #include "convNum.h"
 #include "err_handle.h"
 
@@ -18,10 +19,6 @@
 
 #define SUCCESS 0
 #define FAILURE -1
-
-/* temp conversion equations */
-#define CONV_CTF(_conv_num) (((_conv_num)*(9.0/5.0)) + 32) /* C to F */
-#define CONV_FTC(_conv_num) (((_conv_num)-32) * (5.0/9.0)) /* F to C */
 
 /* definitions for the exit_flag in menu_input */
 #define EXIT_FALSE 0
@@ -63,10 +60,10 @@
 void set_verbose(bool flag);
 void print_verbose(const char *fstring, ...);
 
-int menu_input(bool *ctf, int *exit_flag);
+double menu_input(bool *ctf, int *exit_flag);
 void clear_stdin();
 char* fgets_input(FILE *fptr);
 char* get_input(int *exit_flag);
-int get_usr_temp(int mopt, bool *ctf, int *exit_flag);
+double get_usr_temp(int mopt, bool *ctf, int *exit_flag);
 
-double conv_print(int conv_num, bool ctf);
+double conv_print(double conv_num, bool ctf);

@@ -19,7 +19,7 @@
 int main(int argc, char *argv[])
 {
 	int opt;
-	int conv_num = 0;
+	double conv_num = 0;
 	int exit_flag = false;	/* control flag for exiting and skipping conv EOF */
 	bool ctf = true;		   /* celcius to fahrenheit flag */
 	bool use_cmd_args = false; /* use command line arguemnts or not */
@@ -33,13 +33,13 @@ int main(int argc, char *argv[])
 		case 'c':
 			ctf = true;
 			use_cmd_args = true;
-			conv_num = convInt(optarg, CN_BASE_10, "conv_num, C");
+			conv_num = conv_dbl(optarg, CN_BASE_10, "conv_num, C");
 			break;
 
 		case 'f':
 			ctf = false;
 			use_cmd_args = true;
-			conv_num = convInt(optarg, CN_BASE_10, "conv_num, F");
+			conv_num = conv_dbl(optarg, CN_BASE_10, "conv_num, F");
 			break;
 		
 		case 'v':
