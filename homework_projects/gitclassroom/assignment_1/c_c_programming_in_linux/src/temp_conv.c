@@ -23,6 +23,12 @@ void set_verbose(bool flag)
 	verbose = flag;
 }
 
+static size_t my_strnlen(const char *str, size_t maxlen)
+{
+	size_t i;
+	for (i=0; i < maxlen && str[i]; ++i);
+	return i;
+}
 void print_verbose(const char *fstring, ...)
 {
 	va_list varg_list;
@@ -180,7 +186,7 @@ char* fgets_input(FILE *fptr)
 
 	fgets(buff, BUFF_SIZE, fptr);
 	if (_usrLikely(buff[0] != '\0')) {
-		in_len = strnlen(buff, BUFF_SIZE) - 1; /* set to last index */
+		in_len = my_strnlen(buff, BUFF_SIZE) - 1; /* set to last index */
 		if (_usrLikely(buff[in_len] == '\n'))
 			buff[in_len] = '\0';
 		else

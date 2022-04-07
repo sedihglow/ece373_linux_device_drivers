@@ -1,7 +1,7 @@
 BIN = ./bin/temp_conv.out
 CC=gcc
 CCFLAGS = -I ./include -I -c -Wall -Wextra -pthread 
-CCFLAGS+= -m64 -O0 -g -pedantic 
+CCFLAGS+= -m64 -O0 -g -pedantic -std=c99
 LDFLAGS = -pthread -m64
 
 SRCS=$(wildcard ./src/*.c)

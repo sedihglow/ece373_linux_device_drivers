@@ -8,6 +8,7 @@
 #include <string.h>
 #include <limits.h>
 #include <errno.h>
+#include <float.h>
 #include "convNum.h"
 
                 /* static prototypes #{{{ */
@@ -21,19 +22,25 @@ convNum(const char *fname, const char *arg, int32_t flags, const char *name);
 
 /* converts arg to a long, based on flags. fname and name used in error */
 static unsigned long long
-convUnsigned(const char *fname, const char *arg, register int32_t flags, const char *name);
+convUnsigned(const char *fname, const char *arg, register int32_t flags, 
+			 const char *name);
+
+/* converts arg to a double, based on flags. fname and name used in error */
+static double 
+conv_double(const char *fname, const char *arg, int32_t flags, 
+			const char *name);
 /*#}}}*/
 
 /******************************************************************************
- *                          Header Funtions
+ *                          Static Funtions
  *****************************************************************************/
-void convFail(const char *fname, const char *msg, const char *arg, const char *name)/*#{{{*/
+void convFail(const char *fname, const char *msg, const char *arg, /*#{{{*/
+			  const char *name)
 {
     fprintf(stderr, "%s error", fname);
 
     /* print original callers name if it was given */
-    if(name != NULL){
-        fprintf(stderr, " (intType %s)", name);}
+    if(name != NULL){ fprintf(stderr, " (intType %s)", name);}
 
     fprintf(stderr, ": %s\n", msg);
 
@@ -47,16 +54,17 @@ void convFail(const char *fname, const char *msg, const char *arg, const char *n
 long long convNum(const char *fname, const char *arg, register int32_t flags, /*#{{{*/
                  const char *name)
 {
-    register long long res = 0;
-    register int32_t base = 0;
+    register long long res = 0; register int32_t base = 0;
     char *endptr = NULL;
 
-    if(arg == NULL || *arg == '\0'){
-        if(flags & CN_NOEXIT_){
+    if (arg == NULL || *arg == '\0') {
+        if (flags & CN_NOEXIT_) {
+			errno = EINVAL;
             fprintf(stderr,"\nNull or empty string.\n");
-            return 0;}
-        else{
-            convFail(fname, "null or empty string", arg, name);}
+            return 0;
+		} else {
+            convFail(fname, "null or empty string", arg, name);
+		}
     }
 
     /* determine the base to be passed to strtoul. */
@@ -68,42 +76,43 @@ long long convNum(const char *fname, const char *arg, register int32_t flags, /*
     res = strtoll(arg, &endptr, base); /* convert string to base */
 
     /* error check result */
-    if(errno != 0){
-        if(flags & CN_NOEXIT_){
-            fprintf(stderr,"\nConversion convFailed.\n");
-            return 0;}
-        else{
-            convFail(fname, "strtoll() convFailed", arg, name);} /* end else */
-    }
+    if (errno != 0) {
+        if (flags & CN_NOEXIT_) {
+            fprintf(stderr,"\n strtoll() Conversion failed.\n");
+            return 0;
+		} else {
+            convFail(fname, "strtoll() convFail", arg, name);
+		}
+	}
 
-    if(*endptr != '\0'){
-        if(flags & CN_NOEXIT_){
+    if (*endptr != '\0') {
+        if (flags & CN_NOEXIT_) {
             errno = EINVAL;
             fprintf(stderr,"\nNonnumeric characters.\n");
             return 0;
-        }
-        else{
-            convFail(fname, "nonnumeric characters", arg, name);}
+        } else{
+            convFail(fname, "nonnumeric characters", arg, name);
+		}
     }
 
-    if((flags & CN_NONEG) && res < 0){
-        if(flags & CN_NOEXIT_){
+    if ((flags & CN_NONEG) && res < 0) {
+        if (flags & CN_NOEXIT_) {
             errno = EINVAL;
             fprintf(stderr,"\nNegetive value not allowed.\n");
             return 0;
-        }
-        else{
-            convFail(fname, "negative value not allowed", arg, name);}
+        } else {
+            convFail(fname, "negative value not allowed", arg, name);
+		}
     }
 
-    if((flags & CN_GT_Z) && res <= 0){
-        if(flags & CN_NOEXIT_){
+    if ((flags & CN_GT_Z) && res <= 0) {
+        if (flags & CN_NOEXIT_) {
             errno = EINVAL;
             fprintf(stderr,"\nValue must be > 0.\n");
             return 0;
-        }
-        else{
-            convFail(fname, "value must be > 0", arg, name);}
+        } else {
+            convFail(fname, "value must be > 0", arg, name);
+		}
     }
     return res;
 } /* end convNum #}}} */
@@ -115,12 +124,14 @@ unsigned long long convUnsigned(const char *fname, const char *arg,     /*#{{{*/
     register int32_t base = 0;
     char *endptr = NULL;
 
-    if(arg == NULL || *arg == '\0'){
-        if(flags & CN_NOEXIT_){
+    if (arg == NULL || *arg == '\0') {
+        if (flags & CN_NOEXIT_) {
+			errno = EINVAL;
             fprintf(stderr,"\nNull or empty string.\n");
-            return 0;}
-        else{
-            convFail(fname, "null or empty string", arg, name);}
+            return 0;
+		} else {
+            convFail(fname, "null or empty string", arg, name);
+		}
     }
 
     /* determine the base to be passed to strtoul. */
@@ -132,140 +143,247 @@ unsigned long long convUnsigned(const char *fname, const char *arg,     /*#{{{*/
     res = strtoull(arg, &endptr, base); /* convert string to base */
 
     /* error check result */
-    if(errno != 0){
-        if(flags & CN_NOEXIT_){
-            fprintf(stderr,"\nConversion convFailed.\n");
-            return 0;}
-        else{
-            convFail(fname, "strtoll() convFailed", arg, name);}
+    if (errno != 0) {
+        if (flags & CN_NOEXIT_) {
+            fprintf(stderr,"\nstrtoull() Conversion failed.\n");
+            return 0;
+		} else {
+            convFail(fname, "strtoll() convFailed", arg, name);
+		}
     }
 
-    if(*endptr != '\0'){
-        if(flags & CN_NOEXIT_){
+    if (*endptr != '\0') {
+        if (flags & CN_NOEXIT_) {
             errno = EINVAL;
             fprintf(stderr,"\nNonnumeric characters.\n");
-            return 0;}
-        else{
-            convFail(fname, "nonnumeric characters", arg, name);}
+            return 0;
+		} else {
+            convFail(fname, "nonnumeric characters", arg, name);
+		}
     }
 
-    if((flags & CN_GT_Z) && res <= 0){
-        if(flags & CN_NOEXIT_){
+    if ((flags & CN_GT_Z) && res <= 0) {
+        if (flags & CN_NOEXIT_) {
             errno = EINVAL;
             fprintf(stderr,"\nValue must be > 0.\n");
-            return 0;}
-        else{
-            convFail(fname, "value must be > 0", arg, name);}
+            return 0;
+		} else {
+            convFail(fname, "value must be > 0", arg, name);
+		}
     }
     return res;
 } /* end convUnsigned #}}} */
 
+static double conv_double(const char *fname, const char *arg, int32_t flags, /* #{{{ */
+						  const char *name)
+{
+    double res = 0.0;
+    char *endptr = NULL;
+
+    if (arg == NULL || *arg == '\0') {
+        if (flags & CN_NOEXIT_) {
+			errno = EINVAL;
+            fprintf(stderr,"\nNull or empty string.\n");
+            return 0;
+		} else {
+            convFail(fname, "null or empty string", arg, name);
+		}
+    }
+
+    errno = 0; /* just in case errno was set from who knows where */
+    res = strtod(arg, &endptr); /* convert string to double */
+
+    /* error check result */
+    if (errno != 0) {
+        if (flags & CN_NOEXIT_) {
+            fprintf(stderr,"\n strtoll() Conversion failed.\n");
+            return 0;
+		} else {
+            convFail(fname, "strtoll() convFail", arg, name);
+		}
+	}
+
+    if (*endptr != '\0') {
+        if (flags & CN_NOEXIT_) {
+            errno = EINVAL;
+            fprintf(stderr,"\nNonnumeric characters.\n");
+            return 0;
+        } else {
+            convFail(fname, "nonnumeric characters", arg, name);
+		}
+    }
+
+    if ((flags & CN_NONEG) && res < 0) {
+        if (flags & CN_NOEXIT_) {
+            errno = EINVAL;
+            fprintf(stderr,"\nNegetive value not allowed.\n");
+            return 0;
+        } else {
+            convFail(fname, "negative value not allowed", arg, name);
+		}
+    }
+
+    if ((flags & CN_GT_Z) && res <= 0) {
+        if (flags & CN_NOEXIT_) {
+            errno = EINVAL;
+            fprintf(stderr,"\nValue must be > 0.\n");
+            return 0;
+        } else {
+            convFail(fname, "value must be > 0", arg, name);
+		}
+    }
+    return res;
+} /* #}}} */
+
 /******************************************************************************
  *                          Header Funtions
  *****************************************************************************/
-long convLong(const char *arg, int32_t flags, const char *varName)/*#{{{*/
+long convLong(const char *arg, int32_t flags, const char *var_name)/*#{{{*/
 {
     register long long res = 0;
 
-    res = convNum("convLong", arg, flags, varName);
+    res = convNum("convLong", arg, flags, var_name);
 
     /* make sure the converted number is in the range of an long */
-    if(res > LONG_MAX || res < LONG_MIN){
-        if(flags & CN_NOEXIT_){
+    if (res > LONG_MAX || res < LONG_MIN) {
+        if (flags & CN_NOEXIT_) {
+			errno = ERANGE;
             fprintf(stderr,"\nInteger was out of range\n");
             return 0;
-        }
-        else convFail("convLong", "integer out of range", arg, varName);
+        } else {
+			convFail("convLong", "integer out of range", arg, var_name);
+		}
     }
     return (long) res;
 } /* end convLong #}}} */
 
-int convInt(const char *arg, int32_t flags, const char *varName)/*#{{{*/
+int convInt(const char *arg, int32_t flags, const char *var_name)/*#{{{*/
 {
     register long long res = 0;
 
-    res = convNum("convInt", arg, flags, varName);
+    res = convNum("convInt", arg, flags, var_name);
 
     if (errno)
         return 0;
 
     /* make sure the converted number is in the range of an int */
-    if(res > INT_MAX || res < INT_MIN){
-        if(flags & CN_NOEXIT_){
-            errno = EINVAL;
+    if (res > INT_MAX || res < INT_MIN) {
+        if (flags & CN_NOEXIT_) {
+            errno = ERANGE;
             fprintf(stderr,"\nInteger was out of range\n");
             return 0;
         } else {
-            convFail("convInt", "integer out of range", arg, varName);
+            convFail("convInt", "integer out of range", arg, var_name);
         }
     }
     return (int) res;
 } /* end getInt #}}}*/
 
-int32_t conv32_t(const char *arg, int32_t flags, const char *varName)/*#{{{*/
+int32_t conv32_t(const char *arg, int32_t flags, const char *var_name)/*#{{{*/
 {
     register long long res = 0;
 
-    res = convNum("conv32_t", arg, flags, varName);
+    res = convNum("conv32_t", arg, flags, var_name);
+
+    if (errno)
+        return 0;
 
     /* make sure the converted number is in the range of an int32_t */
-    if(res > INT32_MAX || res < INT32_MIN){
-        if(flags & CN_NOEXIT_){
+    if (res > INT32_MAX || res < INT32_MIN) {
+        if (flags & CN_NOEXIT_) {
+			errno = ERANGE;
             fprintf(stderr,"\nInteger was out of range\n");
             return 0;
-        }
-        else convFail("conv32_t", "integer out of range", arg, varName);
+        } else {
+			convFail("conv32_t", "integer out of range", arg, var_name);
+		}
     }
     return (int32_t) res;
 } /* end get32_t #}}} */
 
-int64_t conv64_t(const char *arg, int32_t flags, const char *varName)/*#{{{*/
+int64_t conv64_t(const char *arg, int32_t flags, const char *var_name)/*#{{{*/
 {
     register long long res = 0;
 
-    res = convNum("conv64_t", arg, flags, varName);
+    res = convNum("conv64_t", arg, flags, var_name);
+
+    if (errno)
+        return 0;
 
     /* make sure the converted number is in the range of an int64_t */
-    if(res > INT64_MAX || res < INT64_MIN){
-        if(flags & CN_NOEXIT_){
+    if (res > INT64_MAX || res < INT64_MIN) {
+        if (flags & CN_NOEXIT_) {
+			errno = ERANGE;
             fprintf(stderr,"\nInteger was out of range\n");
             return 0;
-        }
-        else convFail("conv64_t", "integer out of range", arg, varName);
+        } else {
+			convFail("conv64_t", "integer out of range", arg, var_name);
+		}
    }
     return (int64_t) res;
 } /* end get64_t #}}} */
 
-uint32_t convU32_t(const char *arg, int32_t flags, const char *varName)/*#{{{*/
+uint32_t convU32_t(const char *arg, int32_t flags, const char *var_name)/*#{{{*/
 {
     register unsigned long long res = 0;
 
-    res = convUnsigned("convU32_t", arg, flags, varName);
+    res = convUnsigned("convU32_t", arg, flags, var_name);
+
+    if (errno)
+        return 0;
 
     /* make sure the converted number is in the range of an uint32_t */
-    if(res > UINT32_MAX){ /* checks for >0 in convNum */
-        if(flags & CN_NOEXIT_){
+    if (res > UINT32_MAX) { /* checks for >0 in convNum */
+        if (flags & CN_NOEXIT_) {
+			errno = ERANGE;
             fprintf(stderr,"\nInteger was out of range\n");
             return 0;
-        }
-        else convFail("convU32_t", "integer out of range", arg, varName);
+        } else {
+			convFail("convU32_t", "integer out of range", arg, var_name);
+		}
     }
     return (uint32_t) res;
 } /* end get32_t #}}} */
 
-uint64_t convU64_t(const char *arg, int32_t flags, const char *varName)/*#{{{*/
+uint64_t convU64_t(const char *arg, int32_t flags, const char *var_name)/*#{{{*/
 {
     register unsigned long long res = 0;
 
-    res = convUnsigned("convU64_t", arg, flags, varName);
+    res = convUnsigned("convU64_t", arg, flags, var_name);
+
+    if (errno)
+        return 0;
 
     /* make sure the converted number is in the range of an uint64_t */
-    if(res > UINT64_MAX){ /* checks for unsigned in getNum */
-        if(flags & CN_NOEXIT_){
+    if (res > UINT64_MAX) { /* checks for unsigned in convNum */
+        if (flags & CN_NOEXIT_) {
+			errno = ERANGE;
             fprintf(stderr,"\nInteger was out of range\n");
             return 0;
-        }
-        else convFail("convU64_t", "integer out of range", arg, varName);
+        } else {
+			convFail("convU64_t", "integer out of range", arg, var_name);
+		}
     }
     return (uint64_t) res;
 } /* end get64_t #}}} */
+
+double conv_dbl(const char *arg, int32_t flags, const char *var_name)
+{
+	double res = 0.0;
+
+	res = conv_double("conv_dbl", arg, flags, var_name);
+
+    if (errno)
+		return 0;
+
+	if (res > DBL_MAX || res < DBL_MIN) {
+		if (flags & CN_NOEXIT_) {
+			errno = ERANGE;
+            fprintf(stderr,"\nInteger was out of range\n");
+            return 0;
+        } else {
+			convFail("convU32_t", "integer out of range", arg, var_name);
+		}
+	}
+	return res;
+}
