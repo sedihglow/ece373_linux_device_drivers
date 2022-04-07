@@ -52,4 +52,7 @@ uint32_t convU32_t(const char *arg, int32_t flags, const char *varName);
 
 /* turn arg into a uint64_t based on flags. name used in error message */
 uint64_t convU64_t(const char *arg, int32_t flags, const char *varName);
+
+/* turn arg into double bassed on flags. name used in error message */
+double conv_dbl(const char *arg, int32_t flags, const char *var_name);
 #endif
