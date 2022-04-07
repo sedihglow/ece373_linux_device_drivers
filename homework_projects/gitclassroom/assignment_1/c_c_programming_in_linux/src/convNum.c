@@ -367,7 +367,7 @@ uint64_t convU64_t(const char *arg, int32_t flags, const char *var_name)/*#{{{*/
     return (uint64_t) res;
 } /* end get64_t #}}} */
 
-double conv_dbl(const char *arg, int32_t flags, const char *var_name)
+double conv_dbl(const char *arg, int32_t flags, const char *var_name) /* #{{{ */
 {
 	double res = 0.0;
 
@@ -386,4 +386,4 @@ double conv_dbl(const char *arg, int32_t flags, const char *var_name)
 		}
 	}
 	return res;
-}
+} /* #}}} */
