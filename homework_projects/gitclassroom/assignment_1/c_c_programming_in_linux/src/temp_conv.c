@@ -6,7 +6,7 @@
 
 /* menu input definitions for the menu options */
 #define MENU_OPTIONS  3 /* total number of menu options in menu_input() */
-#define LOWEST_OPTION 1
+#define LOWEST_OPTION 1 /* lowest number in the menu list for options */
 #define C_TO_F        1 /* flag for celcius to fahrenheit */
 #define F_TO_C        2 /* flag for fahrenheit to celcius */
 #define MENU_EXIT     3 /* flag to exit the menu conversion loop */
@@ -92,14 +92,18 @@ double menu_input(bool *ctf, int *exit_flag)
 		fflush(stdout);
 
 		input = get_input(exit_flag);
-		if (!input)
+		if (*exit_flag == EXIT_TRUE)
 			return DBL_MIN;
-
-		in_val = convInt(input, CN_BASE_10 | CN_NOEXIT_ | CN_GT_Z, "in_val, menu");
-		if (_usrUnlikely(errno))
-			err_msg("failed to convert input");
 		
-		free(input);
+		if (*exit_flag == EXIT_FALSE) {
+			in_val = convInt(input, CN_BASE_10 | CN_NOEXIT_ | CN_GT_Z, 
+							 "in_val, menu");
+			if (_usrUnlikely(errno))
+				err_msg("failed to convert input");
+		}
+		
+		if (_usrLikely(input))
+			free(input);
 	} while (_usrUnlikely(in_val > MENU_OPTIONS || in_val < LOWEST_OPTION));
 
 	in_dbl = get_usr_temp(in_val, ctf, exit_flag);
@@ -148,7 +152,8 @@ char* get_input(int *exit_flag)
 		*exit_flag = NO_INPUT;
 		return NULL;
 	}
-
+	
+	*exit_flag = EXIT_FALSE;
 	return input;
 }
 
