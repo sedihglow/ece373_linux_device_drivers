@@ -16,16 +16,16 @@
 #define CONV_FTC(_conv_num) (((_conv_num)-32) * (5.0/9.0)) /* F to C */
 
 /* global verbose flag */
-static bool verbose = false;
+static bool _verbose = false;
 
 static bool get_verbose()
 {
-	return verbose;
+	return _verbose;
 }
 
 void set_verbose(bool flag)
 {
-	verbose = flag;
+	_verbose = flag;
 }
 
 static size_t my_strnlen(const char *str, size_t maxlen)
@@ -139,7 +139,7 @@ char* get_input(int *exit_flag)
 			return NULL;
 		}
 
-		printf("[warning] no input provided.\n");
+		printf("\n[warning] no input provided.\n");
 		*exit_flag = NO_INPUT;
 		return NULL;
 	}

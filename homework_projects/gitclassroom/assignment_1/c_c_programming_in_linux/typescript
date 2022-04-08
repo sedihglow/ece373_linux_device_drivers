@@ -1,0 +1,50 @@
+Script started on 2022-04-07 18:56:42-0700
+]0;j@j-X580VD: ~/ece373_linux_device_drivers/homework_projects/gitclassroom/assignment_1/c_c_programming_in_linux[01;32mj@j-X580VD[00m:[01;34m~/ece373_linux_device_drivers/homework_projects/gitclassroom/assignment_1/c_c_programming_in_linux[00m$ make run
+-- Running Program --
+make
+make[1]: Entering directory '/home/j/ece373_linux_device_drivers/homework_projects/gitclassroom/assignment_1/c_c_programming_in_linux'
+make[1]: Nothing to be done for 'all'.
+make[1]: Leaving directory '/home/j/ece373_linux_device_drivers/homework_projects/gitclassroom/assignment_1/c_c_programming_in_linux'
+./bin/temp_conv.out -v
+
+Please select which type of unit you want to convert.
+1. Celecius to Farhenheit
+2. Farhenheit to Celcius
+3. exit
+Enter number: 1
+Enter Celcius temperature: 10
+[verbose] in_val: 10.000000
+
+Celcius: 10.00, Farhenheit: 50.00
+
+Please select which type of unit you want to convert.
+1. Celecius to Farhenheit
+2. Farhenheit to Celcius
+3. exit
+Enter number: 2
+Enter Farenheit temperature: 20
+[verbose] in_val: 20.000000
+
+Farhenheit: 20.00, Celcius: -6.67
+
+Please select which type of unit you want to convert.
+1. Celecius to Farhenheit
+2. Farhenheit to Celcius
+3. exit
+Enter number: 
+[warning] no number provided
+
+Please select which type of unit you want to convert.
+1. Celecius to Farhenheit
+2. Farhenheit to Celcius
+3. exit
+Enter number: 
+[warning] no input provided.
+
+Please select which type of unit you want to convert.
+1. Celecius to Farhenheit
+2. Farhenheit to Celcius
+3. exit
+Enter number: 3
+
+Script done on 2022-04-07 18:57:24-0700
