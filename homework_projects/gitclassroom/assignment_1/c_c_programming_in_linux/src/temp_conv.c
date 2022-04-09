@@ -34,6 +34,7 @@ static size_t my_strnlen(const char *str, size_t maxlen)
 	for (i=0; i < maxlen && str[i]; ++i);
 	return i;
 }
+
 void print_verbose(const char *fstring, ...)
 {
 	va_list varg_list;
@@ -281,6 +282,12 @@ double get_usr_temp(int mopt, bool *ctf, int *exit_flag)
 	return in_val;
 }
 
+/*
+ * converts and prints conv_num to celcius or fahrenheit depending on ctf flag
+ *
+ * returns: conv_res, result of the conversion. celcius or fahrenheit depenging
+ *			on ctf flag.
+ */
 double conv_print(double conv_num, bool ctf)
 {
 	double conv_res = 0;

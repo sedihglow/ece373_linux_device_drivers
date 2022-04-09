@@ -32,9 +32,8 @@
  * -will execute every argument into the function in order from first arg.
  * -funct only takes in one argument. 
  *
- * BUGS: If a list of pointers is passed and free is being used, _stopper is 
- *		 equal to NULL. Applying multiple pointers will stop it short if one of
- *		 the pointer is equal to _stopper.
+ * BUGS: If a list of pointers is passed and one is NULL before _stopper, the
+ *		 function will stop going through the arguments and end.
  *
  *		 if 1 pointer is passed this can be ignored since the function will not
  *		 get called. For example, with free, it will not free the single NULL
@@ -54,6 +53,11 @@
 /* 
  * apply free to every pointer given in the argument list using the
  * apply_funct macro 
+ *
+ *
+ * BUGS: if a list of pointers is passed using free and one is NULL before the
+ *		 stopper it will not free the rest of the pointers given in the 
+ *		 argument list since _stopper is NULL.
  */
 #define FREE_ALL(...)   (APPLY_FUNCT(void, free, __VA_ARGS__))
 
