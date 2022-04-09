@@ -7,3 +7,6 @@
 [submodule "homework_projects/gitclassroom/githubclassroomtutorial-sedihglow"]
 	path = homework_projects/gitclassroom/githubclassroomtutorial-sedihglow
 	url = git@github.com:PSUECE373/githubclassroomtutorial-sedihglow.git
+[submodule "homework_projects/gitclassroom/gitclass_assignment1-james_ross"]
+	path = homework_projects/gitclassroom/gitclass_assignment1-james_ross
+	url = git@github.com:PSUECE373/ece373---assignment-1---hellooooo-linux-sedihglow.git

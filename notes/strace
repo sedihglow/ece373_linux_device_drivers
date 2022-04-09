@@ -1,0 +1,5 @@
+man strace
+
+strace [program to exectute]
+
+traces system calls
