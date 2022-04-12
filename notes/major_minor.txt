@@ -1,0 +1,14 @@
+use dev_t data type
+avoid using type defs in your own code.
+
+first 12 numbers are major (upper bits)
+last 20 numbers are minor (lower bits)
+
+its packed.
+
+returns major or minor number from node.
+MAJOR(dev_t node)
+MINOR(dev_t node) 
+
+returns dev_t major and minor value packed.
+MKDEV(major,minor), example: dev_t mydev_node = MKDEV(255,0)

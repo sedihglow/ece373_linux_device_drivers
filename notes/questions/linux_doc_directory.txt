@@ -1,0 +1,6 @@
+"Theres a big documentation directory in the linux kernel source tree that has
+a whole pile of stuff one of them in the coding standards."
+
+Where do i find the documentation and the coding standards. is it on most
+distros or do you have to install it if your not pulling directly from the
+linux tree?
