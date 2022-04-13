@@ -1,3 +1,23 @@
-modinfo [filename]
+modinfo [filename.ko]
 
 shows driver info filled with module macros and other information
+shows the metadata 
+
+param is shown. defined in the driver with module_param
+
+static int exam = 15;
+modual_param(exam, int, S_IRUSR | S_IWUSR); Flags, readable, writable
+
+this will show up in sysfs
+
+modual_param(exam_nosysfs, int, 0) 0 as flag will now show up on sysfd
+
+sudo insmod example5.ko exam=5 exam_nosysfs=22
+
+sets the param
+
+/sys/module/example5/parameters
+
+sudo cat exam
+
+

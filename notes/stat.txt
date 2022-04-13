@@ -1,0 +1,6 @@
+man 2 stat uses the system call
+
+stat [file]
+
+gives information about the file, blocks, regulare file, inode number, links,
+etc.

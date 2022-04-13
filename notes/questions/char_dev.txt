@@ -1,0 +1,16 @@
+for the major and minor numbers, we pass the first minor and count to the alloc
+function.
+
+How do we know what count to use for the minor number? What exactly is the minor
+number and how do we know what the count should be for our driver?
+
+
+file operations
+
+int (*release) (struct inode *, struct file *);
+
+what is release? cant find a man page on it.
+- release is just close() in user space. double check theres not a function ptr
+  for close() in file operations struct.
+
+

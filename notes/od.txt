@@ -1,0 +1,5 @@
+ocatl dump
+
+cat /dev/ece | od -c
+
+gives octal of value
