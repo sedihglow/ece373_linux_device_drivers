@@ -1,5 +1,9 @@
 watch [another command to run]
 
+watch -d 'program'
+
+watch -n(?) [interval] 'program'
+
 It will pop it up in a screen on a terminal and continue to run (say ifconfig)
 every X seconds. It shows what is changing on a static screen. Good to watch
 registers changing, counters etc.
