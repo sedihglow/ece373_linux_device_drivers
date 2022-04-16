@@ -49,7 +49,7 @@ void print_verbose(const char *fstring, ...)
 		snprintf(final, BUFF_SIZE, "%s %s", vs, msg);
 		printf("%s", final);
 	}
-	
+
 	va_end(varg_list);
 }
 
@@ -66,7 +66,7 @@ void print_verbose(const char *fstring, ...)
  *			  sets exit flag to EXIT_TRUE when we want to exit the program.
  *			  sets exit flag to NO_INPUT when no input was given. (EOF signal)
  *			- returns DBL_MAX when exit_flag is set to TRUE and is a clean exit
- * error: 
+ * error:
  *		    - On error, DBL_MIN is returned.
  *
  * NOTE: DBL_MIN is also returned on EOF
@@ -83,7 +83,7 @@ double menu_input(bool *ctf, int *exit_flag)
 		err_msg("ctf or exit was not allocated before entering.");
 		return DBL_MIN;
 	}
-	
+
 	do {
 		printf("\nPlease select which type of unit you want to convert.\n"
 			   "1. Celecius to Farhenheit\n"
@@ -95,14 +95,16 @@ double menu_input(bool *ctf, int *exit_flag)
 		input = get_input(exit_flag);
 		if (*exit_flag == EXIT_TRUE)
 			return DBL_MIN;
-		
+
 		if (*exit_flag == EXIT_FALSE) {
-			in_val = convInt(input, CN_BASE_10 | CN_NOEXIT_ | CN_GT_Z, 
+			in_val = convInt(input, CN_BASE_10 | CN_NOEXIT_ | CN_GT_Z,
 							 "in_val, menu");
-			if (_usrUnlikely(errno))
+			if (_usrUnlikely(errno)) {
 				err_msg("failed to convert input");
+				errno = 0;
+			}
 		}
-		
+
 		if (_usrLikely(input))
 			free(input);
 	} while (_usrUnlikely(in_val > MENU_OPTIONS || in_val < LOWEST_OPTION));
@@ -132,7 +134,7 @@ char* get_input(int *exit_flag)
 			*exit_flag = EXIT_TRUE;
 			return NULL;
 		}
-		
+
 		if (ferror(stdin)) {
 			errno = EIO;
 			err_msg("fgets() failed.");
@@ -153,7 +155,7 @@ char* get_input(int *exit_flag)
 		*exit_flag = NO_INPUT;
 		return NULL;
 	}
-	
+
 	*exit_flag = EXIT_FALSE;
 	return input;
 }
@@ -200,14 +202,14 @@ char* fgets_input(FILE *fptr)
 	} else {
 		return NULL;
 	}
-	
+
 	in_len += 1; /* include full size not index */
 	input = CALLOC_ARRAY(char, in_len);
 	if (_usrUnlikely(!input)) {
 		err_msg("Failed to allocate input array");
 		return NULL;
 	}
-	
+
 	strncpy(input, buff, in_len);
 
 	return input;
@@ -244,7 +246,7 @@ double get_usr_temp(int mopt, bool *ctf, int *exit_flag)
 			*exit_flag = EXIT_TRUE;
 			return DBL_MIN;
 		}
-		
+
 		print_verbose("in_val: %f\n", in_val);
 
 		free(input);
@@ -269,7 +271,7 @@ double get_usr_temp(int mopt, bool *ctf, int *exit_flag)
 		}
 
 		print_verbose("in_val: %f\n", in_val);
-		
+
 		free(input);
 
 		*exit_flag = EXIT_FALSE;

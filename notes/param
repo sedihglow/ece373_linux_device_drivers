@@ -1,0 +1,5 @@
+sudo insmod var=x
+
+sets the param var to x when setting the module
+
+/sys/module/module_name/parameters
