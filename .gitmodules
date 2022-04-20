@@ -13,3 +13,6 @@
 [submodule "homework_projects/gitclassroom/gitclass_assignment2_char_driver_basics-james_ross"]
 	path = homework_projects/gitclassroom/gitclass_assignment2_char_driver_basics-james_ross
 	url = git@github.com:PSUECE373/ece373---assignment-2---char-driver-basics-sedihglow.git
+[submodule "homework_projects/gitclassroom/gitclass_assignment3_pci_led-james_ross"]
+	path = homework_projects/gitclassroom/gitclass_assignment3_pci_led-james_ross
+	url = git@github.com:PSUECE373/ece373---assignment-3---pci-led-sedihglow.git
