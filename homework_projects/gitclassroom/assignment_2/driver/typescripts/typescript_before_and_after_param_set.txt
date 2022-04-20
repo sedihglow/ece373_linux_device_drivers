@@ -1,0 +1,107 @@
+Script started on 2022-04-15 17:22:54-07:00 [TERM="xterm-256color" TTY="/dev/pts/0" COLUMNS="160" LINES="24"]
+]0;j@j-VirtualBox: ~/ece373_linux_device_drivers/homework_projects/gitclassroom/gitclass_assignment2_char_driver_basics-james_ross/assignment_2/driver[01;32mj@j-VirtualBox[00m:[01;34m~/ece373_linux_device_drivers/homework_projects/gitclassroom/gitclass_assignment2_char_driver_basics-james_ross/assignment_2/driver[00m$ make
+make -C /lib/modules/5.13.0-39-generic/build M=/home/j/ece373_linux_device_drivers/homework_projects/gitclassroom/gitclass_assignment2_char_driver_basics-james_ross/assignment_2/driver modules
+make[1]: Entering directory '/usr/src/linux-headers-5.13.0-39-generic'
+  CC [M]  /home/j/ece373_linux_device_drivers/homework_projects/gitclassroom/gitclass_assignment2_char_driver_basics-james_ross/assignment_2/driver/basic_char.o
+  MODPOST /home/j/ece373_linux_device_drivers/homework_projects/gitclassroom/gitclass_assignment2_char_driver_basics-james_ross/assignment_2/driver/Module.symvers
+  CC [M]  /home/j/ece373_linux_device_drivers/homework_projects/gitclassroom/gitclass_assignment2_char_driver_basics-james_ross/assignment_2/driver/basic_char.mod.o
+  LD [M]  /home/j/ece373_linux_device_drivers/homework_projects/gitclassroom/gitclass_assignment2_char_driver_basics-james_ross/assignment_2/driver/basic_char.ko
+  BTF [M] /home/j/ece373_linux_device_drivers/homework_projects/gitclassroom/gitclass_assignment2_char_driver_basics-james_ross/assignment_2/driver/basic_char.ko
+Skipping BTF generation for /home/j/ece373_linux_device_drivers/homework_projects/gitclassroom/gitclass_assignment2_char_driver_basics-james_ross/assignment_2/driver/basic_char.ko due to unavailability of vmlinux
+make[1]: Leaving directory '/usr/src/linux-headers-5.13.0-39-generic'
+]0;j@j-VirtualBox: ~/ece373_linux_device_drivers/homework_projects/gitclassroom/gitclass_assignment2_char_driver_basics-james_ross/assignment_2/driver[01;32mj@j-VirtualBox[00m:[01;34m~/ece373_linux_device_drivers/homework_projects/gitclassroom/gitclass_assignment2_char_driver_basics-james_ross/assignment_2/driver[00m$ sudo insmod  basic_char.ko
+[sudo] password for j: 
+]0;j@j-VirtualBox: ~/ece373_linux_device_drivers/homework_projects/gitclassroom/gitclass_assignment2_char_driver_basics-james_ross/assignment_2/driver[01;32mj@j-VirtualBox[00m:[01;34m~/ece373_linux_device_drivers/homework_projects/gitclassroom/gitclass_assignment2_char_driver_basics-james_ross/assignment_2/driver[00m$ cd ../user/
+]0;j@j-VirtualBox: ~/ece373_linux_device_drivers/homework_projects/gitclassroom/gitclass_assignment2_char_driver_basics-james_ross/assignment_2/user[01;32mj@j-VirtualBox[00m:[01;34m~/ece373_linux_device_drivers/homework_projects/gitclassroom/gitclass_assignment2_char_driver_basics-james_ross/assignment_2/user[00m$ make
+gcc -I ./include -I -c -Wall -Wextra -pthread  -m64 -O0 -g -pedantic -std=c99 -o src/err_handle.o -c src/err_handle.c
+gcc -I ./include -I -c -Wall -Wextra -pthread  -m64 -O0 -g -pedantic -std=c99 -o src/main.o -c src/main.c
+gcc -I ./include -I -c -Wall -Wextra -pthread  -m64 -O0 -g -pedantic -std=c99 -o src/bc_test.o -c src/bc_test.c
+gcc -I ./include -I -c -Wall -Wextra -pthread  -m64 -O0 -g -pedantic -std=c99 -o src/convNum.o -c src/convNum.c
+gcc ./src/err_handle.o ./src/main.o ./src/bc_test.o ./src/convNum.o -o bin/basic_char_user.out -pthread -m64
+]0;j@j-VirtualBox: ~/ece373_linux_device_drivers/homework_projects/gitclassroom/gitclass_assignment2_char_driver_basics-james_ross/assignment_2/user[01;32mj@j-VirtualBox[00m:[01;34m~/ece373_linux_device_drivers/homework_projects/gitclassroom/gitclass_assignment2_char_driver_basics-james_ross/assignment_2/user[00m$ make[K[K[K[Kmake run
+-- Running Program --
+make
+make[1]: Entering directory '/home/j/ece373_linux_device_drivers/homework_projects/gitclassroom/gitclass_assignment2_char_driver_basics-james_ross/assignment_2/user'
+make[1]: Nothing to be done for 'all'.
+make[1]: Leaving directory '/home/j/ece373_linux_device_drivers/homework_projects/gitclassroom/gitclass_assignment2_char_driver_basics-james_ross/assignment_2/user'
+sudo ./bin/basic_char_user.out
+This program is to run tests on the basic_char kernel module.
+rwr_seek_test will call read and write with lseek in between.
+wrw_no_seek_test will call write and read without lseek.
+
+Please choose which test to run.
+1. rwr_seek_test: read write read with lseek to 0 between.
+2. wrw_no_seek_test: write read write with no lseek between.
+3. exit
+Enter number: 1
+
+Enter value to use when writing to basic_char: 15
+
+reading from basic_char: 10, ret = 4
+lseek set offset to 0
+write complete. ret = 4
+lseek set offset to 0
+reading from basic_char: 15, ret = 4
+lseek set offset to 0
+rwr seek test complete
+
+Please choose which test to run.
+1. rwr_seek_test: read write read with lseek to 0 between.
+2. wrw_no_seek_test: write read write with no lseek between.
+3. exit
+Enter number: 2
+
+Enter value to use when writing to basic_char: 20
+
+write complete. ret = 4
+No lseek between prev write and next read.
+reading from basic_char: 0, ret = 0
+No lseek between prev read and next write.
+write complete. ret = 0
+lseek set offset to 0
+
+Please choose which test to run.
+1. rwr_seek_test: read write read with lseek to 0 between.
+2. wrw_no_seek_test: write read write with no lseek between.
+3. exit
+Enter number: 3
+]0;j@j-VirtualBox: ~/ece373_linux_device_drivers/homework_projects/gitclassroom/gitclass_assignment2_char_driver_basics-james_ross/assignment_2/user[01;32mj@j-VirtualBox[00m:[01;34m~/ece373_linux_device_drivers/homework_projects/gitclassroom/gitclass_assignment2_char_driver_basics-james_ross/assignment_2/user[00m$ sudo rmmod bas ic_char 
+]0;j@j-VirtualBox: ~/ece373_linux_device_drivers/homework_projects/gitclassroom/gitclass_assignment2_char_driver_basics-james_ross/assignment_2/user[01;32mj@j-VirtualBox[00m:[01;34m~/ece373_linux_device_drivers/homework_projects/gitclassroom/gitclass_assignment2_char_driver_basics-james_ross/assignment_2/user[00m$ sudo insmod .. /
+driver/ user/   
+]0;j@j-VirtualBox: ~/ece373_linux_device_drivers/homework_projects/gitclassroom/gitclass_assignment2_char_driver_basics-james_ross/assignment_2/user[01;32mj@j-VirtualBox[00m:[01;34m~/ece373_linux_device_drivers/homework_projects/gitclassroom/gitclass_assignment2_char_driver_basics-james_ross/assignment_2/user[00m$ sudo insmod ../driver/basic_char.ko data_init=5
+]0;j@j-VirtualBox: ~/ece373_linux_device_drivers/homework_projects/gitclassroom/gitclass_assignment2_char_driver_basics-james_ross/assignment_2/user[01;32mj@j-VirtualBox[00m:[01;34m~/ece373_linux_device_drivers/homework_projects/gitclassroom/gitclass_assignment2_char_driver_basics-james_ross/assignment_2/user[00m$ make run
+-- Running Program --
+make
+make[1]: Entering directory '/home/j/ece373_linux_device_drivers/homework_projects/gitclassroom/gitclass_assignment2_char_driver_basics-james_ross/assignment_2/user'
+make[1]: Nothing to be done for 'all'.
+make[1]: Leaving directory '/home/j/ece373_linux_device_drivers/homework_projects/gitclassroom/gitclass_assignment2_char_driver_basics-james_ross/assignment_2/user'
+sudo ./bin/basic_char_user.out
+This program is to run tests on the basic_char kernel module.
+rwr_seek_test will call read and write with lseek in between.
+wrw_no_seek_test will call write and read without lseek.
+
+Please choose which test to run.
+1. rwr_seek_test: read write read with lseek to 0 between.
+2. wrw_no_seek_test: write read write with no lseek between.
+3. exit
+Enter number: 1
+
+Enter value to use when writing to basic_char: 10
+
+reading from basic_char: 5, ret = 4
+lseek set offset to 0
+write complete. ret = 4
+lseek set offset to 0
+reading from basic_char: 10, ret = 4
+lseek set offset to 0
+rwr seek test complete
+
+Please choose which test to run.
+1. rwr_seek_test: read write read with lseek to 0 between.
+2. wrw_no_seek_test: write read write with no lseek between.
+3. exit
+Enter number: 3
+]0;j@j-VirtualBox: ~/ece373_linux_device_drivers/homework_projects/gitclassroom/gitclass_assignment2_char_driver_basics-james_ross/assignment_2/user[01;32mj@j-VirtualBox[00m:[01;34m~/ece373_linux_device_drivers/homework_projects/gitclassroom/gitclass_assignment2_char_driver_basics-james_ross/assignment_2/user[00m$ sudo rmmod bas ic_char 
+]0;j@j-VirtualBox: ~/ece373_linux_device_drivers/homework_projects/gitclassroom/gitclass_assignment2_char_driver_basics-james_ross/assignment_2/user[01;32mj@j-VirtualBox[00m:[01;34m~/ece373_linux_device_drivers/homework_projects/gitclassroom/gitclass_assignment2_char_driver_basics-james_ross/assignment_2/user[00m$ exit
+
+Script done on 2022-04-15 17:24:47-07:00 [COMMAND_EXIT_CODE="0"]
