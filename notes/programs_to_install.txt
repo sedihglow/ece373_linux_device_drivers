@@ -1,0 +1,3 @@
+sudo apt-get install autoconf automake flex bison libtool
+
+tools for parsing config files when working with a fresh kernel install.

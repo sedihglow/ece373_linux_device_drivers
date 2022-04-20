@@ -1,0 +1,103 @@
+Script started on 2022-04-15 17:17:57-07:00 [TERM="xterm-256color" TTY="/dev/pts/0" COLUMNS="160" LINES="24"]
+]0;j@j-VirtualBox: ~/ece373_linux_device_drivers/homework_projects/gitclassroom/gitclass_assignment2_char_driver_basics-james_ross/assignment_2/driver[01;32mj@j-VirtualBox[00m:[01;34m~/ece373_linux_device_drivers/homework_projects/gitclassroom/gitclass_assignment2_char_driver_basics-james_ross/assignment_2/driver[00m$ make
+make -C /lib/modules/5.13.0-39-generic/build M=/home/j/ece373_linux_device_drivers/homework_projects/gitclassroom/gitclass_assignment2_char_driver_basics-james_ross/assignment_2/driver modules
+make[1]: Entering directory '/usr/src/linux-headers-5.13.0-39-generic'
+  CC [M]  /home/j/ece373_linux_device_drivers/homework_projects/gitclassroom/gitclass_assignment2_char_driver_basics-james_ross/assignment_2/driver/basic_char.o
+  MODPOST /home/j/ece373_linux_device_drivers/homework_projects/gitclassroom/gitclass_assignment2_char_driver_basics-james_ross/assignment_2/driver/Module.symvers
+  CC [M]  /home/j/ece373_linux_device_drivers/homework_projects/gitclassroom/gitclass_assignment2_char_driver_basics-james_ross/assignment_2/driver/basic_char.mod.o
+  LD [M]  /home/j/ece373_linux_device_drivers/homework_projects/gitclassroom/gitclass_assignment2_char_driver_basics-james_ross/assignment_2/driver/basic_char.ko
+  BTF [M] /home/j/ece373_linux_device_drivers/homework_projects/gitclassroom/gitclass_assignment2_char_driver_basics-james_ross/assignment_2/driver/basic_char.ko
+Skipping BTF generation for /home/j/ece373_linux_device_drivers/homework_projects/gitclassroom/gitclass_assignment2_char_driver_basics-james_ross/assignment_2/driver/basic_char.ko due to unavailability of vmlinux
+make[1]: Leaving directory '/usr/src/linux-headers-5.13.0-39-generic'
+]0;j@j-VirtualBox: ~/ece373_linux_device_drivers/homework_projects/gitclassroom/gitclass_assignment2_char_driver_basics-james_ross/assignment_2/driver[01;32mj@j-VirtualBox[00m:[01;34m~/ece373_linux_device_drivers/homework_projects/gitclassroom/gitclass_assignment2_char_driver_basics-james_ross/assignment_2/driver[00m$ sudo insmod  basic_char.ko
+[sudo] password for j: 
+]0;j@j-VirtualBox: ~/ece373_linux_device_drivers/homework_projects/gitclassroom/gitclass_assignment2_char_driver_basics-james_ross/assignment_2/driver[01;32mj@j-VirtualBox[00m:[01;34m~/ece373_linux_device_drivers/homework_projects/gitclassroom/gitclass_assignment2_char_driver_basics-james_ross/assignment_2/driver[00m$ cd /proc
+]0;j@j-VirtualBox: /proc[01;32mj@j-VirtualBox[00m:[01;34m/proc[00m$ ls
+[0m[01;34m1[0m     [01;34m1104[0m  [01;34m1256[0m  [01;34m1358[0m  [01;34m1430[0m  [01;34m15[0m    [01;34m182[0m   [01;34m251[0m   [01;34m3061[0m  [01;34m446[0m   [01;34m519[0m   [01;34m650[0m  [01;34m85[0m          buddyinfo      filesystems  loadavg       [01;36mself[0m               vmallocinfo
+[01;34m10[0m    [01;34m1109[0m  [01;34m1275[0m  [01;34m1364[0m  [01;34m1435[0m  [01;34m1546[0m  [01;34m183[0m   [01;34m252[0m   [01;34m308[0m   [01;34m447[0m   [01;34m522[0m   [01;34m673[0m  [01;34m87[0m          [01;34mbus[0m            [01;34mfs[0m           locks         slabinfo           vmstat
+[01;34m1030[0m  [01;34m1122[0m  [01;34m1281[0m  [01;34m1374[0m  [01;34m1436[0m  [01;34m1565[0m  [01;34m19[0m    [01;34m257[0m   [01;34m3231[0m  [01;34m482[0m   [01;34m523[0m   [01;34m72[0m   [01;34m88[0m          cgroups        interrupts   mdstat        softirqs           zoneinfo
+[01;34m106[0m   [01;34m1134[0m  [01;34m1288[0m  [01;34m1382[0m  [01;34m1438[0m  [01;34m1579[0m  [01;34m2[0m     [01;34m26[0m    [01;34m3308[0m  [01;34m483[0m   [01;34m524[0m   [01;34m73[0m   [01;34m9[0m           cmdline        iomem        meminfo       stat
+[01;34m1072[0m  [01;34m1139[0m  [01;34m1295[0m  [01;34m1387[0m  [01;34m1440[0m  [01;34m158[0m   [01;34m20[0m    [01;34m262[0m   [01;34m3364[0m  [01;34m486[0m   [01;34m527[0m   [01;34m74[0m   [01;34m90[0m          consoles       ioports      misc          swaps
+[01;34m1085[0m  [01;34m1144[0m  [01;34m13[0m    [01;34m14[0m    [01;34m1443[0m  [01;34m159[0m   [01;34m21[0m    [01;34m264[0m   [01;34m3365[0m  [01;34m487[0m   [01;34m538[0m   [01;34m75[0m   [01;34m91[0m          cpuinfo        [01;34mirq[0m          modules       [01;34msys[0m
+[01;34m1086[0m  [01;34m1146[0m  [01;34m1309[0m  [01;34m1405[0m  [01;34m1451[0m  [01;34m16[0m    [01;34m2150[0m  [01;34m265[0m   [01;34m3429[0m  [01;34m490[0m   [01;34m5504[0m  [01;34m76[0m   [01;34m92[0m          crypto         kallsyms     [01;36mmounts[0m        sysrq-trigger
+[01;34m109[0m   [01;34m1148[0m  [01;34m1328[0m  [01;34m1412[0m  [01;34m1452[0m  [01;34m1678[0m  [01;34m2153[0m  [01;34m266[0m   [01;34m3438[0m  [01;34m492[0m   [01;34m570[0m   [01;34m77[0m   [01;34m93[0m          devices        kcore        mtrr          [01;34msysvipc[0m
+[01;34m1092[0m  [01;34m115[0m   [01;34m1332[0m  [01;34m1424[0m  [01;34m1458[0m  [01;34m1682[0m  [01;34m22[0m    [01;34m267[0m   [01;34m3465[0m  [01;34m493[0m   [01;34m598[0m   [01;34m78[0m   [01;34m95[0m          diskstats      keys         [01;36mnet[0m           [01;36mthread-self[0m
+[01;34m1095[0m  [01;34m1155[0m  [01;34m1333[0m  [01;34m1425[0m  [01;34m1460[0m  [01;34m1693[0m  [01;34m223[0m   [01;34m268[0m   [01;34m3489[0m  [01;34m507[0m   [01;34m6[0m     [01;34m79[0m   [01;34m96[0m          dma            key-users    pagetypeinfo  timer_list
+[01;34m1098[0m  [01;34m1157[0m  [01;34m1336[0m  [01;34m1426[0m  [01;34m1463[0m  [01;34m17[0m    [01;34m23[0m    [01;34m269[0m   [01;34m3544[0m  [01;34m510[0m   [01;34m602[0m   [01;34m791[0m  [01;34m97[0m          [01;34mdriver[0m         kmsg         partitions    [01;34mtty[0m
+[01;34m11[0m    [01;34m1163[0m  [01;34m1338[0m  [01;34m1427[0m  [01;34m1485[0m  [01;34m1717[0m  [01;34m24[0m    [01;34m2899[0m  [01;34m3725[0m  [01;34m5107[0m  [01;34m604[0m   [01;34m80[0m   [01;34macpi[0m        [01;34mdynamic_debug[0m  kpagecgroup  [01;34mpressure[0m      uptime
+[01;34m110[0m   [01;34m1189[0m  [01;34m1349[0m  [01;34m1428[0m  [01;34m1487[0m  [01;34m1728[0m  [01;34m244[0m   [01;34m3[0m     [01;34m3785[0m  [01;34m5108[0m  [01;34m640[0m   [01;34m82[0m   [01;34masound[0m      execdomains    kpagecount   schedstat     version
+[01;34m1101[0m  [01;34m12[0m    [01;34m1353[0m  [01;34m1429[0m  [01;34m1499[0m  [01;34m18[0m    [01;34m25[0m    [01;34m3028[0m  [01;34m4[0m     [01;34m518[0m   [01;34m646[0m   [01;34m84[0m   bootconfig  fb             kpageflags   [01;34mscsi[0m          version_signature
+]0;j@j-VirtualBox: /proc[01;32mj@j-VirtualBox[00m:[01;34m/proc[00m$ car de[K[K[K[Ky [K[Kt se[K[Kdei[Kci[K[Kvices 
+Character devices:
+  1 mem
+  4 /dev/vc/0
+  4 tty
+  4 ttyS
+  5 /dev/tty
+  5 /dev/console
+  5 /dev/ptmx
+  5 ttyprintk
+  6 lp
+  7 vcs
+ 10 misc
+ 13 input
+ 21 sg
+ 29 fb
+ 89 i2c
+ 99 ppdev
+108 ppp
+116 alsa
+128 ptm
+136 pts
+180 usb
+189 usb_device
+202 cpu/msr
+204 ttyMAX
+226 drm
+235 basic_char
+236 aux
+237 cec
+238 lirc
+239 ipmidev
+240 hidraw
+241 vfio
+242 wwan_port
+243 bsg
+244 watchdog
+245 remoteproc
+246 ptp
+247 pps
+248 rtc
+249 dma_heap
+250 dax
+251 dimmctl
+252 ndctl
+253 tpm
+254 gpiochip
+
+Block devices:
+  7 loop
+  8 sd
+  9 md
+ 11 sr
+ 65 sd
+ 66 sd
+ 67 sd
+ 68 sd
+ 69 sd
+ 70 sd
+ 71 sd
+128 sd
+129 sd
+130 sd
+131 sd
+132 sd
+133 sd
+134 sd
+135 sd
+253 device-mapper
+254 mdp
+259 blkext
+]0;j@j-VirtualBox: /proc[01;32mj@j-VirtualBox[00m:[01;34m/proc[00m$ exit
+
+Script done on 2022-04-15 17:19:02-07:00 [COMMAND_EXIT_CODE="0"]
