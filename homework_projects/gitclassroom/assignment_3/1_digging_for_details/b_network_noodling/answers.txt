@@ -1,6 +1,0 @@
-a) What pins control the LEDs?
-
-b) What address offset is the Device Control Register?
-
-c) What bit in the Device Control Register wil force a reset of the network chip?
-
