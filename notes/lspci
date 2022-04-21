@@ -1,0 +1,24 @@
+lspci
+
+00:1f.3
+bus address: device: function
+bdf notation
+
+corresponds to a physical slot in the system
+
+where it is in the pci tree like structure hierarchy
+
+lspci -s 00:1f.3
+shows just that one, tells type and name
+
+the string is the device and vendor number as a string of what it means.
+
+lspci -n -s 00:1f.3
+shows bdf : vendor id: device id
+does lspci without string resolution
+
+
+sudo lspci -s 00:1f.3 -v -x
+
+-x makes it dump hex values representing the config space in hex. dumps what the
+host sees.
