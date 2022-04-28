@@ -2,3 +2,11 @@ dmesg
 dmesg -T (time stamp stuff with dmessage)
 dmseg -T | tail -10
 dmesg | tail -10 | cat > outfile.txt
+
+dmesg -w (w stands for wait for new messages --follow) 
+same behavior as tail -f
+
+dmesg -C clear dmesg buffer
+
+tail -f syslog opens file and whenever something happens it will spool to the
+output.
