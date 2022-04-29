@@ -154,6 +154,9 @@ static ssize_t basic_char_write(struct file *file, const char __user *buf,
 
 	pr_info(DEV_NAME ": Module data currently set to %d\n", mydev.rwdata);
 
+	kfree(kbuf);
+	return ret;
+
 simple_write_to_buffer_out:
 	kfree(kbuf);
 out:
