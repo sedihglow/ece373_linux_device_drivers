@@ -1,0 +1,16 @@
+a) What register (name and address) controls the LEDs?
+
+LEDCTL (00E00h; RW)
+
+b) What bit pattern should you use to turn off LED1?
+
+0x00004E00
+
+sets led1 mode to E (always ON) bits 11:8
+sets led1 IVRT to 1 (invert, so ON -> OFF) bit 14
+
+c) What bit pattern should you use to make LED2 blink?
+
+0x08E0000
+
+The register should be read and masked to avoid overwriting reserved registers

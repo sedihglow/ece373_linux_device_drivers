@@ -1,0 +1,14 @@
+a) What pins control the LEDs?
+
+LED0/LINK#     - pin A12
+LED1/ACT#      - pin C11
+LED2/LINK100#  - pin B11
+LED3/LINK1000# - pin B12
+
+b) What address offset is the Device Control Register?
+
+CTRL (00000h; R/W)
+
+c) What bit in the Device Control Register wil force a reset of the network chip?
+
+RST = bit 26 of device control register

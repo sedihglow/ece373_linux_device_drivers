@@ -1,0 +1,15 @@
+a) What is the audio device?
+
+The audo device is a Realtek ALC888
+
+b) what device is the GPIO connected to?
+
+The 8-bit GPIO is connected to the Super IO Winbond W83627DHG
+
+c) how many network (LAN) devices are on the motherboard and what are they?
+
+There are two LAN devices, LAN 1: Intel 82567V and LAN 2: Intel 82583V
+
+d) how many total serial ports does the box support inside and out?
+
+3 in rear IO, 3 in internal connectors, 6 serial ports total.
