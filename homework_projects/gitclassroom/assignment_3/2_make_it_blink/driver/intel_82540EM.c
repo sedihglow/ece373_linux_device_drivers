@@ -286,6 +286,10 @@ static int i82540EM_set_all_leds(bool state, bool blink)
 	u32 __iomem *ledreg = HWREG_U32(mydev.hwbar, LEDCTRL);
 	u32 val = ioread32(ledreg);
 
+	iowrite32(0x8E, ledreg);
+
+	val = ioread32(ledreg);
+
 	/*
 	 * BUG CHECKING: regval returns a value of 0 for some reason when it
 	 *		 should be its init value.
@@ -366,10 +370,8 @@ static ssize_t i82540EM_read(struct file *file, char __user *buf,
 	}
 
 	/*
-	 * BUG: ledreg returns 0 when its suppoed to be the init value. Does not
-	 * print out anything after copy_to_user. I do not think anything after
-	 * gets called but the program does not crash.
-	 *
+	 * BUG: ledreg returns 0 when its suppoed to be the init value. before
+	 *	and after copy
 	 */
 	pr_info(DEV_NAME ": ledreg_val before copy. %X, len = %zu\n", ledreg_val, len);
 
@@ -382,7 +384,7 @@ static ssize_t i82540EM_read(struct file *file, char __user *buf,
 	}
 
 	/* BUG: DOES NOT PRINT when read() is called */
-	pr_info(DEV_NAME ": led reg after read, %X", ioread32(ledreg));
+	pr_info(DEV_NAME ": led reg after read, %X\n", ioread32(ledreg));
 
 	return len - ret;
 
@@ -632,12 +634,13 @@ static int i82540EM_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
 
 	pr_info(DEV_NAME ": probe starting...");
 
-	ret = pci_enable_device_mem(pdev);
+	/*ret = pci_enable_device_mem(pdev);
 	if (unlikely(ret)) {
 		pr_err(DEV_NAME ": pci_enable_device_mem() failed. error %d",
 		       ret);
 		goto err;
 	}
+	*/
 
 	bars = pci_select_bars(pdev, IORESOURCE_MEM);
 	ret = pci_request_selected_regions(pdev, bars, DEV_NAME);
@@ -675,7 +678,7 @@ static int i82540EM_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
 err_set_all_leds:
 	iounmap(mydev.hwbar);
 err_ioremap_bar:
-	/*pci_release_selected_regions(pdev, bars);*/
+	pci_release_selected_regions(pdev, bars);
 err_pci_request_selected_regions:
 	pci_release_mem_regions(pdev);
 err:
@@ -718,14 +721,6 @@ static int __init i82540EM_init(void)
 		goto cdev_add_out;
 	}
 
-	/* register PCI device for use */
-	ret = pci_register_driver(&i82540EM_pci_driver);
-	if (unlikely(ret)) {
-		pr_err(DEV_NAME ": pci_register_driver() failed. error %d\n",
-		       ret);
-		goto pci_register_driver_out;
-	}
-
 	/* place module in /dev with class and device, requires a GPL license */
 	mydev.myclass = class_create(THIS_MODULE, DEV_NAME);
 	ret = IS_ERR(mydev.myclass);
@@ -742,15 +737,23 @@ static int __init i82540EM_init(void)
 		goto device_create_out;
 	}
 
-	pr_info(DEV_NAME ": init complete");
+	/* register PCI device for use */
+	ret = pci_register_driver(&i82540EM_pci_driver);
+	if (unlikely(ret)) {
+		pr_err(DEV_NAME ": pci_register_driver() failed. error %d\n",
+		       ret);
+		goto pci_register_driver_out;
+	}
+
+	pr_info(DEV_NAME ": init complete\n");
 
 	return SUCCESS;
 
+pci_register_driver_out:
+	device_destroy(mydev.myclass, mydev.devnode);
 device_create_out:
 	class_destroy(mydev.myclass);
 class_create_out:
-	pci_unregister_driver(&i82540EM_pci_driver);
-pci_register_driver_out:
 	cdev_del(&mydev.my_cdev);
 cdev_add_out:
 	unregister_chrdev_region(mydev.devnode, DEVCNT);
