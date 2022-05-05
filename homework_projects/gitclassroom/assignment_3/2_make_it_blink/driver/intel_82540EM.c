@@ -77,28 +77,28 @@
 #define LED0_MODE_ON       0x0000000E
 #define LED0_IVRT          0x00000040
 #define LED0_BLINK         0x00000080
-#define LED0_MODE_OFF	   ((LED0_MODE_ON) | (LED0_IVRT))
+#define LED0_MODE_OFF	   0x0000000F
 #define LED0_MODE_BLINK_ON ((LED0_MODE_ON) | (LED0_BLINK))
 
 #define LED1_NUM           0x1
 #define LED1_MODE_ON       0x00000E00
 #define LED1_IVRT          0x00004000
 #define LED1_BLINK         0x00008000
-#define LED1_MODE_OFF	   ((LED1_MODE_ON) | (LED1_IVRT))
+#define LED1_MODE_OFF	   0x00000F00
 #define LED1_MODE_BLINK_ON ((LED1_MODE_ON) | (LED1_BLINK))
 
 #define LED2_NUM           0x2
 #define LED2_MODE_ON       0x000E0000
 #define LED2_IVRT          0x00400000
 #define LED2_BLINK         0x00800000
-#define LED2_MODE_OFF	   ((LED2_MODE_ON) | (LED2_IVRT))
+#define LED2_MODE_OFF	   0x000F0000
 #define LED2_MODE_BLINK_ON ((LED2_MODE_ON) | (LED2_BLINK))
 
 #define LED3_NUM           0x3
 #define LED3_MODE_ON       0x0E000000
 #define LED3_IVRT	   0x40000000
 #define LED3_BLINK	   0x80000000
-#define LED3_MODE_OFF	   ((LED3_MODE_ON) | (LED3_IVRT))
+#define LED3_MODE_OFF	   0x0F000000
 #define LED3_MODE_BLINK_ON ((LED3_MODE_ON) | (LED3_BLINK))
 
 #define ALL_LED_MODE_ON							       \
@@ -383,7 +383,6 @@ static ssize_t i82540EM_read(struct file *file, char __user *buf,
 		goto err;
 	}
 
-	/* BUG: DOES NOT PRINT when read() is called */
 	pr_info(DEV_NAME ": led reg after read, %X\n", ioread32(ledreg));
 
 	return len - ret;
