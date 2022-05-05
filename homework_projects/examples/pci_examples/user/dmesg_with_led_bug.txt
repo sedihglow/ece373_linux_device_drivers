@@ -1,0 +1,6 @@
+[25224.255702] pci_example: loading module with init...
+[25224.259771] pci_example: Starting probe
+[25224.264619] pci_example: end probe
+[25224.265212] pci_example: end init
+[25233.369504] In read, LEDCTL: 0x00000000
+[25233.369519] In read, after write LEDCTL: 0x00000000
