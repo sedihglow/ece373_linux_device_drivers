@@ -1,0 +1,52 @@
+[  547.920193] intel_82540EM: module loading... init blink_rate = 2
+[  547.920209] intel_82540EM 0000:00:03.0: : probe starting...
+[  547.920211] intel_82540EM 0000:00:03.0: Allocated 1 devices at major 235
+[  547.922934] intel_82540EM 0000:00:03.0: device created in /dev
+[  548.342890] intel_82540EM 0000:00:03.0: initial state of device control, 0x00000A09
+[  548.342936] intel_82540EM 0000:00:03.0: latest result sent to DEV_CTRL. 0x00000A69
+[  548.342952] intel_82540EM 0000:00:03.0: led regval after write in set_led: 0x0706830F
+[  548.342967] intel_82540EM 0000:00:03.0: led regval after write in set_led: 0x07060F0F
+[  548.342981] intel_82540EM 0000:00:03.0: led regval after write in set_led: 0x070F0F0F
+[  548.342995] intel_82540EM 0000:00:03.0: led regval after write in set_led: 0x0F0F0F0F
+[  548.342997] intel_82540EM 0000:00:03.0: probe complete
+[  548.344950] intel_82540EM: init complete
+[  554.475394] intel_82540EM 0000:00:03.0: Successfully opened.
+[  555.478758] intel_82540EM 0000:00:03.0: blink_rate = 2 sec, time since last timer in jiff = 252
+[  555.478800] intel_82540EM 0000:00:03.0: led regval after write in set_led: 0x0F0F0F0E
+[  555.478805] intel_82540EM 0000:00:03.0: new blink_rate_ms = 2000, new blink_rate_jiff = 500, new prev_jiff = 4295031144, current jiffies = 4295031144
+[  556.502839] intel_82540EM 0000:00:03.0: blink_rate = 2 sec, time since last timer in jiff = 256
+[  556.502881] intel_82540EM 0000:00:03.0: led regval after write in set_led: 0x0F0F0F0F
+[  556.502885] intel_82540EM 0000:00:03.0: new blink_rate_ms = 2000, new blink_rate_jiff = 500, new prev_jiff = 4295031400, current jiffies = 4295031400
+[  557.526719] intel_82540EM 0000:00:03.0: blink_rate = 2 sec, time since last timer in jiff = 256
+[  557.526756] intel_82540EM 0000:00:03.0: led regval after write in set_led: 0x0F0F0F0E
+[  557.526759] intel_82540EM 0000:00:03.0: new blink_rate_ms = 2000, new blink_rate_jiff = 500, new prev_jiff = 4295031656, current jiffies = 4295031656
+[  558.550990] intel_82540EM 0000:00:03.0: blink_rate = 2 sec, time since last timer in jiff = 256
+[  558.551028] intel_82540EM 0000:00:03.0: led regval after write in set_led: 0x0F0F0F0F
+[  558.551032] intel_82540EM 0000:00:03.0: new blink_rate_ms = 2000, new blink_rate_jiff = 500, new prev_jiff = 4295031912, current jiffies = 4295031912
+[  559.574991] intel_82540EM 0000:00:03.0: blink_rate = 2 sec, time since last timer in jiff = 256
+[  559.575025] intel_82540EM 0000:00:03.0: led regval after write in set_led: 0x0F0F0F0E
+[  559.575029] intel_82540EM 0000:00:03.0: new blink_rate_ms = 2000, new blink_rate_jiff = 500, new prev_jiff = 4295032168, current jiffies = 4295032168
+[  560.598997] intel_82540EM 0000:00:03.0: blink_rate = 2 sec, time since last timer in jiff = 256
+[  560.599040] intel_82540EM 0000:00:03.0: led regval after write in set_led: 0x0F0F0F0F
+[  560.599045] intel_82540EM 0000:00:03.0: new blink_rate_ms = 2000, new blink_rate_jiff = 500, new prev_jiff = 4295032424, current jiffies = 4295032424
+[  561.622974] intel_82540EM 0000:00:03.0: blink_rate = 2 sec, time since last timer in jiff = 256
+[  561.623018] intel_82540EM 0000:00:03.0: led regval after write in set_led: 0x0F0F0F0E
+[  561.623022] intel_82540EM 0000:00:03.0: new blink_rate_ms = 2000, new blink_rate_jiff = 500, new prev_jiff = 4295032680, current jiffies = 4295032680
+[  562.646705] intel_82540EM 0000:00:03.0: blink_rate = 2 sec, time since last timer in jiff = 256
+[  562.646727] intel_82540EM 0000:00:03.0: led regval after write in set_led: 0x0F0F0F0F
+[  562.646729] intel_82540EM 0000:00:03.0: new blink_rate_ms = 2000, new blink_rate_jiff = 500, new prev_jiff = 4295032936, current jiffies = 4295032936
+[  562.951733] intel_82540EM 0000:00:03.0: new blink_rate value = 3 seconds
+[  563.670962] intel_82540EM 0000:00:03.0: blink_rate = 3 sec, time since last timer in jiff = 256
+[  563.671006] intel_82540EM 0000:00:03.0: led regval after write in set_led: 0x0F0F0F0E
+[  563.671010] intel_82540EM 0000:00:03.0: new blink_rate_ms = 3000, new blink_rate_jiff = 750, new prev_jiff = 4295033192, current jiffies = 4295033192
+[  652.797109] intel_82540EM 0000:00:03.0: Successfully opened.
+[  654.294821] intel_82540EM 0000:00:03.0: blink_rate = 3 sec, time since last timer in jiff = 379
+[  654.294865] intel_82540EM 0000:00:03.0: led regval after write in set_led: 0x0F0F0F0F
+[  654.294870] intel_82540EM 0000:00:03.0: new blink_rate_ms = 3000, new blink_rate_jiff = 750, new prev_jiff = 4295055848, current jiffies = 4295055848
+[  654.687627] intel_82540EM 0000:00:03.0: new blink_rate value = 3 seconds
+[  655.799708] intel_82540EM 0000:00:03.0: blink_rate = 3 sec, time since last timer in jiff = 376
+[  655.799743] intel_82540EM 0000:00:03.0: led regval after write in set_led: 0x0F0F0F0E
+[  655.799747] intel_82540EM 0000:00:03.0: new blink_rate_ms = 3000, new blink_rate_jiff = 750, new prev_jiff = 4295056224, current jiffies = 4295056224
+[  657.302759] intel_82540EM 0000:00:03.0: blink_rate = 3 sec, time since last timer in jiff = 376
+[  657.302797] intel_82540EM 0000:00:03.0: led regval after write in set_led: 0x0F0F0F0F
+[  657.302801] intel_82540EM 0000:00:03.0: new blink_rate_ms = 3000, new blink_rate_jiff = 750, new prev_jiff = 4295056600, current jiffies = 4295056600

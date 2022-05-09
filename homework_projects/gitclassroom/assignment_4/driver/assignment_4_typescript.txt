@@ -1,0 +1,51 @@
+Script started on 2022-05-08 17:04:14-07:00 [TERM="xterm-256color" TTY="/dev/pts/0" COLUMNS="159" LINES="24"]
+]0;j@j-VirtualBox: ~/ece373_linux_device_drivers/homework_projects/gitclassroom/gitclass_assignment4_pci_timer_blinker-james_ross/assignment_4/driver[01;32mj@j-VirtualBox[00m:[01;34m~/ece373_linux_device_drivers/homework_projects/gitclassroom/gitclass_assignment4_pci_timer_blinker-james_ross/assignment_4/driver[00m$ sudo insmod  intel_82540EM.ko
+[sudo] password for j: 
+]0;j@j-VirtualBox: ~/ece373_linux_device_drivers/homework_projects/gitclassroom/gitclass_assignment4_pci_timer_blinker-james_ross/assignment_4/driver[01;32mj@j-VirtualBox[00m:[01;34m~/ece373_linux_device_drivers/homework_projects/gitclassroom/gitclass_assignment4_pci_timer_blinker-james_ross/assignment_4/driver[00m$ su[K[Kcd ../user/
+]0;j@j-VirtualBox: ~/ece373_linux_device_drivers/homework_projects/gitclassroom/gitclass_assignment4_pci_timer_blinker-james_ross/assignment_4/user[01;32mj@j-VirtualBox[00m:[01;34m~/ece373_linux_device_drivers/homework_projects/gitclassroom/gitclass_assignment4_pci_timer_blinker-james_ross/assignment_4/user[00m$ make run
+-- Running Program --
+make
+make[1]: Entering directory '/home/j/ece373_linux_device_drivers/homework_projects/gitclassroom/gitclass_assignment4_pci_timer_blinker-james_ross/assignment_4/user'
+make[1]: Nothing to be done for 'all'.
+make[1]: Leaving directory '/home/j/ece373_linux_device_drivers/homework_projects/gitclassroom/gitclass_assignment4_pci_timer_blinker-james_ross/assignment_4/user'
+sudo ./bin/basic_char_user.out
+---intel 82540EM pci driver module testing---This program is to run tests on the intel_82540EM kernel module.
+Read will read the blink_rate param and return its value.
+Write will write to blink_rate param to blink at new value.
+
+Please choose which test to run.
+1. read blink_rate param: value of blink rate via read().
+2. WR to ctrl leds: writes new blink rate then reads it back.
+3. exit
+Enter number: 1
+
+blink_rate value from read: 2
+
+Please choose which test to run.
+1. read blink_rate param: value of blink rate via read().
+2. WR to ctrl leds: writes new blink rate then reads it back.
+3. exit
+Enter number: 2
+
+
+Enter new blink_rate integer in seconds for LED0.
+Enter integer: 3
+new blink_rate from read after write: 3
+
+Please choose which test to run.
+1. read blink_rate param: value of blink rate via read().
+2. WR to ctrl leds: writes new blink rate then reads it back.
+3. exit
+Enter number: 1
+
+blink_rate value from read: 3
+
+Please choose which test to run.
+1. read blink_rate param: value of blink rate via read().
+2. WR to ctrl leds: writes new blink rate then reads it back.
+3. exit
+Enter number: 3
+]0;j@j-VirtualBox: ~/ece373_linux_device_drivers/homework_projects/gitclassroom/gitclass_assignment4_pci_timer_blinker-james_ross/assignment_4/user[01;32mj@j-VirtualBox[00m:[01;34m~/ece373_linux_device_drivers/homework_projects/gitclassroom/gitclass_assignment4_pci_timer_blinker-james_ross/assignment_4/user[00m$ ls[K[Kexit
+exit
+
+Script done on 2022-05-08 17:04:51-07:00 [COMMAND_EXIT_CODE="0"]
