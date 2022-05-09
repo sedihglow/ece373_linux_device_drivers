@@ -179,7 +179,7 @@ static struct file_operations mydev_fops = {
 	.release = i82540EM_release,
 	.read    = i82540EM_read,
 	.write   = i82540EM_write,
-	.llseek  = default_llseek
+	.llseek  = no_llseek
 };
 
 static struct pci_device_id i82540EM_pci_ids[] = {
