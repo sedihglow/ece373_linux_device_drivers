@@ -195,14 +195,6 @@ static struct pci_driver i82540EM_pci_driver = {
 	.remove   = i82540EM_remove
 };
 
-/* struct for unpacked user led options */
-struct led_options {
-	u8 led0_opt;
-	u8 led1_opt;
-	u8 led2_opt;
-	u8 led3_opt;
-};
-
 /* this shows up under /sys/modules/<module name>/parameters */
 static int blink_rate = 2; /* in seconds */
 module_param(blink_rate, int, S_IRUSR | S_IWUSR);
@@ -515,87 +507,6 @@ static ssize_t i82540EM_read(struct file *file, char __user *buf,
 
 err:
 	return ret;
-}
-
-/*
- * i82540EM_create_led_reg_val - creates a u32 register value and returns it.
- * Register values are based on the led_options struct values.
- *
- * @reg_val - the current value from the register to be altered based on
- *	      the led_opts.
- * @led_opts - a struct that holds flag values for which settings to set on
- *	       reg_val.
- *
- * returns: returns reg_val after its been altered based on led_opts
- */
-static u32 i82540EM_create_led_reg_val(u32 reg_val,
-				       struct led_options *led_opts)
-{
-	/* set reg_val for LED0 */
-	if (led_opts->led0_opt & LED_OPT_MODE_ON) {
-		if (led_opts->led0_opt & LED_OPT_BLINK_ON) {
-			reg_val |= LED0_MODE_BLINK_ON;
-		} else {
-			reg_val |= LED0_MODE_ON;
-			reg_val &= ~(LED0_BLINK);
-		}
-	} else {
-		reg_val |= LED0_MODE_OFF;
-		if (led_opts->led0_opt & LED_OPT_BLINK_ON)
-			reg_val |= LED0_BLINK;
-		else
-			reg_val |= ~(LED0_BLINK);
-	}
-
-	/* set reg_val for LED1 */
-	if (led_opts->led1_opt & LED_OPT_MODE_ON) {
-		if (led_opts->led1_opt & LED_OPT_BLINK_ON) {
-			reg_val |= LED1_MODE_BLINK_ON;
-		} else {
-			reg_val |= LED1_MODE_ON;
-			reg_val &= ~(LED1_BLINK);
-		}
-	} else {
-		reg_val |= LED1_MODE_OFF;
-		if (led_opts->led1_opt & LED_OPT_BLINK_ON)
-			reg_val |= LED1_BLINK;
-		else
-			reg_val |= ~(LED1_BLINK);
-	}
-
-	/* set reg_val for LED2 */
-	if (led_opts->led2_opt & LED_OPT_MODE_ON) {
-		if (led_opts->led2_opt & LED_OPT_BLINK_ON) {
-			reg_val |= LED2_MODE_BLINK_ON;
-		} else {
-			reg_val |= LED2_MODE_ON;
-			reg_val &= ~(LED2_BLINK);
-		}
-	} else {
-		reg_val |= LED2_MODE_OFF;
-		if (led_opts->led2_opt & LED_OPT_BLINK_ON)
-			reg_val |= LED2_BLINK;
-		else
-			reg_val |= ~(LED2_BLINK);
-	}
-
-	/* set reg_val for LED3 */
-	if (led_opts->led3_opt & LED_OPT_MODE_ON) {
-		if (led_opts->led3_opt & LED_OPT_BLINK_ON) {
-			reg_val |= LED3_MODE_BLINK_ON;
-		} else {
-			reg_val |= LED3_MODE_ON;
-			reg_val &= ~(LED3_BLINK);
-		}
-	} else {
-		reg_val |= LED3_MODE_OFF;
-		if (led_opts->led3_opt & LED_OPT_BLINK_ON)
-			reg_val |= LED3_BLINK;
-		else
-			reg_val |= ~(LED3_BLINK);
-	}
-
-	return reg_val;
 }
 
 /*

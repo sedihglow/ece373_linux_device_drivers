@@ -19,3 +19,18 @@
 [submodule "homework_projects/gitclassroom/gitclass_assignment4_pci_timer_blinker-james_ross"]
 	path = homework_projects/gitclassroom/gitclass_assignment4_pci_timer_blinker-james_ross
 	url = git@github.com:PSUECE373/ece373---assignment-4---blinker-sedihglow.git
+[submodule "homework_projects/gitclassroom/gitclass_assignment5_userspace_driver-james_ross"]
+	path = homework_projects/gitclassroom/gitclass_assignment5_userspace_driver-james_ross
+	url = git@github.com:PSUECE373/ece373---assignment-5---userspace-optional-hw-sedihglow.git
+[submodule "homework_projects/gitclassroom/gitclass_assignment6_descriptors_interrupts-james_ross"]
+	path = homework_projects/gitclassroom/gitclass_assignment6_descriptors_interrupts-james_ross
+	url = git@github.com:PSUECE373/ece373--assignment-6---descriptors-and-interrupts-sedihglow.git
+[submodule "homework_projects/gitclassroom/gitclass_assignment7_build_a_kernel-james_ross"]
+	path = homework_projects/gitclassroom/gitclass_assignment7_build_a_kernel-james_ross
+	url = git@github.com:PSUECE373/ece373---assignment-7---build-a-kernel-sedihglow.git
+[submodule "homework_projects/gitclassroom/gitclass_assignment_8_desc_reading-james_ross"]
+	path = homework_projects/gitclassroom/gitclass_assignment_8_desc_reading-james_ross
+	url = git@github.com:PSUECE373/ece373---assignment-hw8---descriptor-reading-sedihglow.git
+[submodule "homework_projects/gitclassroom/gitclass_assignment8_desc_reading-james_ross"]
+	path = homework_projects/gitclassroom/gitclass_assignment8_desc_reading-james_ross
+	url = git@github.com:PSUECE373/ece373---assignment-hw8---descriptor-reading-sedihglow.git
