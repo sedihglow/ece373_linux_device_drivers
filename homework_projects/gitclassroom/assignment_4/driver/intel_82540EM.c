@@ -1,5 +1,5 @@
 /*
- * ece373 assignment 2
+ * ece373 assignment 4
  *
  *
  * This module implements read() write() open() llseek() and
@@ -8,7 +8,8 @@
  * this module implements probe() remove() and sets up for the pci device 82540EM
  * intel ethernet card.
  *
- * takes a bytes from the user and sets LEDs based on that.
+ * Uses a timer to blink LED0 at a 50% duty cycle given by a paramater or a
+ * write from the user.
  *
  * written by: James Ross
  */
