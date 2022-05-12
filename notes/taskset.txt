@@ -1,0 +1,3 @@
+change or revieve a processes CPU affinity.
+
+Can set which cpu stuff runs or, or any of them.

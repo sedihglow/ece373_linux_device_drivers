@@ -1,0 +1,24 @@
+ps -ef
+
+process listing
+
+bsdland :  ps aux
+
+UID 
+PID 
+PPID (parent pid)
+STIME (start time) 
+TTY (is it bound to a terminal)
+TIME (wall clock time its taken on cpi) CMD (whats the command)
+
+if it has a square bracket in CMD its a kernel thread
+
+cpuhp/0 cpuhp/1 (numbers are cpu number it is running on)
+
+PID 1 is main process that boots all other processes
+
+lightweight processes are threads
+
+ps -Lef
+
+shows LWP is the thread
