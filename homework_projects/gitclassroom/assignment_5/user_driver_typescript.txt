@@ -1,0 +1,39 @@
+Script started on 2022-05-13 11:47:23-07:00 [TERM="xterm-256color" TTY="/dev/pts/0" COLUMNS="178" LINES="49"]
+]0;j@j-VirtualBox: ~/ece373_linux_device_drivers/homework_projects/gitclassroom/gitclass_assignment5_userspace_driver-james_ross/assignment_5[01;32mj@j-VirtualBox[00m:[01;34m~/ece373_linux_device_drivers/homework_projects/gitclassroom/gitclass_assignment5_userspace_driver-james_ross/assignment_5[00m$ make run
+-- Running Program --
+make
+make[1]: Entering directory '/home/j/ece373_linux_device_drivers/homework_projects/gitclassroom/gitclass_assignment5_userspace_driver-james_ross/assignment_5'
+make[1]: Nothing to be done for 'all'.
+make[1]: Leaving directory '/home/j/ece373_linux_device_drivers/homework_projects/gitclassroom/gitclass_assignment5_userspace_driver-james_ross/assignment_5'
+sudo ./bin/i82540EM_blink_driver.out -s 0000:00:03.0 -n enp0s3 -v
+[sudo] password for j: 
+bus:slot.func = 0000:00:03.0
+portname = enp0s3
+verbose = True
+addr_str: f0000000
+base address: F0000000
+
+initial LED control register state: 0110E000
+LED0 and LED2 on, reg val = 011EE00E
+All LEDs off, reg val = 0F1FEF0F
+All LEDs on, reg val = 0E1EEE0E
+All LEDs off, reg val = 0F1FEF0F
+All LEDs on, reg val = 0E1EEE0E
+All LEDs off, reg val = 0F1FEF0F
+All LEDs on, reg val = 0E1EEE0E
+All LEDs off, reg val = 0F1FEF0F
+All LEDs on, reg val = 0E1EEE0E
+All LEDs off, reg val = 0F1FEF0F
+All LEDs on, reg val = 0E1EEE0E
+All LEDs off, reg val = 0F1FEF0F
+Setting LED reg back to init state, reg val = 0110E000
+
+good packets received count register: 0
+Would you like to exit or rerun the blink sequence?
+1. rerun blink sequence.
+2. exit.
+enter number: 2
+]0;j@j-VirtualBox: ~/ece373_linux_device_drivers/homework_projects/gitclassroom/gitclass_assignment5_userspace_driver-james_ross/assignment_5[01;32mj@j-VirtualBox[00m:[01;34m~/ece373_linux_device_drivers/homework_projects/gitclassroom/gitclass_assignment5_userspace_driver-james_ross/assignment_5[00m$ exit
+exit
+
+Script done on 2022-05-13 11:48:11-07:00 [COMMAND_EXIT_CODE="0"]
