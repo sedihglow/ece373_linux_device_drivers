@@ -1,0 +1,2 @@
+ethregs userspace drivers from source forge from intel. get source to look at 
+pci/pci.h stuff for e1000 driver
