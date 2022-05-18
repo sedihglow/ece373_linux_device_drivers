@@ -1,6 +1,6 @@
 #include "i82540EM_user_driver.h"
 
-#define HWREGU32(base, off) ((u32*)((u32*)(base) + (off)))
+#define HWREGU32(base, off) ((u32*)((char*)(base) + (off)))
 
 #define SUCCESS 0
 #define FAILURE -1
