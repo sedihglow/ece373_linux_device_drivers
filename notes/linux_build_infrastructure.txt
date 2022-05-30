@@ -1,0 +1,104 @@
+start with existing .config that you know works.
+/boot/config-X.XX.X-XX-generic or /usr/src/linux-headers-X-generic/.config
+make olddefconfig to update it
+
+-tweak the config for your needs
+interactiver terminal 'make config'
+- goes into kernel config session and every option available it will ask you how
+you would like to build it, module, not build, etc. Thats a long list, 3-4k
+
+curses based 'make menuconfig'
+- spits out warning or error if wrong packages arent there.
+  - on ubuntu package libncurses-dev (on fadora it was ncurses-devel)
+
+gui based 'make gconfig'
+- use gtk libraries, backend for gnome
+
+There is also make xconfig
+- uses other libraries that are backend of another distro
+
+or edit .config directly.
+- not recommeneded due to heirarchy that changing options may have a
+  downstream effect.
+
+These make calls have requirements.
+
+in linux source tree directory
+make menuconfig
+
+find device drivers
+- in device drivers, deselect stagging. affects build times.
+
+star and M shows up. <M> module, i want to build a kernel module
+symbol =y means yes build it into kernel
+- you can go to help and get info. symbold =m means module
+  type tristate meaning it can be yes build into kernel directly as a static
+  thing.
+  type m is a kernel module
+  type n dont build it at all
+  type bool, yes build or no dont build at all
+
+-kconfig-
+- recursive heirarchy. kconfig file at nearly every level of kernel tree.
+- the kconfig file dictates what is in that .config file. from there the make
+files that are being used to build the kernel are being fed the symbols that
+are in the .config and those can be used in the makefile to decide how to build
+something.
+
+
+Theres a couple different make targets.
+- go through make menuconfig go through all the options. turn off stagging thing
+  or we would be building for hours. basically we go through and tweak things.
+
+- once you get .config you can type make.
+  - will kick off process, go thruogh kconfig files, go to compile the
+    kernel itself. vmlinuz Image compressed that can run on boot.
+
+- GRUB grand unified bootloader, grub will know where the kernel is because its
+  on a boot record on the disk. The boot loader is there to bootstrap kernel to
+  get it up and running then hand it off.
+
+- so when you type make it builds the vmlinuz image.
+- make
+- make modules , builds the modules
+  -make modules_install , loads the modules /dev/kernelversion where drivers go
+- make install, copy vmlinuz image into /boot, creates initial ram disk, init rd
+  or init ramfs. bootloads wil unpack in case you have modules that the kernel
+  will need to boot like a disk module that needs a driver that wasnt statically
+  build into the kernel. builds initial ram disk to start the installer to load
+  the things so it can boot.
+
+-make help
+ - different tagets to clean, clean.
+ - config, nconfig, menuconfig, xconfig, gconfig, oldconfig, etc.etc.
+ - allmodconfig - build as much as modules as possible
+ - just has a line about each one
+
+- adding your own code -
+- theres a misc drivers directory. cd drivers/misc
+- kconfig in folder, so we can add our own.
+config ECE_TEST
+	tristate "testing ece stuff"
+	depends on PCI
+	help
+		if unsure, say yes, otherwise wave at my friends
+
+- so now thats in misc directory
+  - make menuconfig
+    - go to device drivers, into misc drivers. scroll to where you added it
+      go to help and you see info on it.
+
+- then go to Makefile
+  - obj-$(CONFIG_XXX) convers to y n or m depending on type. tristate can be any
+
+when your adding your own code you modify misc/kconfig make your own directory
+copy driver code in and create a makefile that looks similar to other. Echo is
+a example of a super simple one with just obj check.
+
+make -jX (X = 1 more than cpus you have (threads i think)) in root of linux tree
+make menuconfig he had do to to save config, first make didnt work interrupted
+make -jX - then it builds
+
+check wikis in slides for references as well.
+
+may have to update grub - regenerating grub files
