@@ -102,3 +102,5 @@ make -jX - then it builds
 check wikis in slides for references as well.
 
 may have to update grub - regenerating grub files
+
+libelf-dev (gelf.h wasnt on system until i downloaded this)
