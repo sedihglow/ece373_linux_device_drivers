@@ -1,0 +1,7 @@
+Script started on 2022-06-06 20:13:38-07:00 [TERM="xterm-256color" TTY="/dev/pts/0" COLUMNS="80" LINES="24"]
+]0;j@j-Z97X-Gaming-G1: ~/linux_final[01;32mj@j-Z97X-Gaming-G1[00m:[01;34m~/linux_final[00m$ uname -r
+5.18.1-james-ross
+]0;j@j-Z97X-Gaming-G1: ~/linux_final[01;32mj@j-Z97X-Gaming-G1[00m:[01;34m~/linux_final[00m$ exit
+exit
+
+Script done on 2022-06-06 20:13:43-07:00 [COMMAND_EXIT_CODE="0"]

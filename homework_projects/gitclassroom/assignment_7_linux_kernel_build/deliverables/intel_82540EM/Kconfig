@@ -1,0 +1,6 @@
+config I82540EM 
+	tristate "Blink timer for intel 82540EM"
+	depends on PCI
+	help
+	  This driver will blink LED0 on a timer once the dev file is open. Upon
+	  close the timer is stopped.
