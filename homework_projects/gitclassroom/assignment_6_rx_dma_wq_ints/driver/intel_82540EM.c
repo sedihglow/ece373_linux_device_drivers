@@ -898,26 +898,26 @@ static void i82540EM_init_rxctrl_config(struct i82540EM_dev *dev)
 	u32 __iomem *workreg = HWREG_U32(dev->hwbar, RCTRL);
 	u32 reg_val = ioread32(workreg);
 
-	reg_val &= ~(LPE);
-	reg_val &= ~(LBM);
+	reg_val &= ~(LPE); /* Disable long packet enable */
+	reg_val &= ~(LBM); /* disable loopback mode */
 
 	reg_val &= ~(RDMTS);
-	reg_val |= RDMTS_INIT;
+	reg_val |= RDMTS_INIT; /* set receive desc min thresh */
 
-	reg_val &= ~(MO);
-	reg_val |= BAM;
+	reg_val &= ~(MO); /* disable  multicast offset */
+	reg_val |= BAM;   /* enable broadcast accept mode */
 
 	reg_val &= ~(BSIZE_BITS);
-	reg_val |= BSIZE_INIT;
+	reg_val |= BSIZE_INIT; /* set receive buffer size */
 
-	reg_val &= ~(SECRC);
+	reg_val &= ~(SECRC); /* Disbale stripping CTC */
 
-	reg_val |= UPE;
-	reg_val |= MPE;
+	reg_val |= UPE; /* unicast promiscuous mode */
+	reg_val |= MPE; /* multicast promiscuous mode */
 
 	iowrite32(reg_val, workreg);
 
-	reg_val |= RCTRL_EN;
+	reg_val |= RCTRL_EN; /* Rx enabled */
 
 	iowrite32(reg_val, workreg);
 
