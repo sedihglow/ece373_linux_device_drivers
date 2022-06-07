@@ -7,30 +7,9 @@
 [submodule "homework_projects/gitclassroom/githubclassroomtutorial-sedihglow"]
 	path = homework_projects/gitclassroom/githubclassroomtutorial-sedihglow
 	url = git@github.com:PSUECE373/githubclassroomtutorial-sedihglow.git
-[submodule "homework_projects/gitclassroom/gitclass_assignment1-james_ross"]
-	path = homework_projects/gitclassroom/gitclass_assignment1-james_ross
-	url = git@github.com:PSUECE373/ece373---assignment-1---hellooooo-linux-sedihglow.git
-[submodule "homework_projects/gitclassroom/gitclass_assignment2_char_driver_basics-james_ross"]
-	path = homework_projects/gitclassroom/gitclass_assignment2_char_driver_basics-james_ross
-	url = git@github.com:PSUECE373/ece373---assignment-2---char-driver-basics-sedihglow.git
 [submodule "homework_projects/gitclassroom/gitclass_assignment3_pci_led-james_ross"]
 	path = homework_projects/gitclassroom/gitclass_assignment3_pci_led-james_ross
 	url = git@github.com:PSUECE373/ece373---assignment-3---pci-led-sedihglow.git
-[submodule "homework_projects/gitclassroom/gitclass_assignment4_pci_timer_blinker-james_ross"]
-	path = homework_projects/gitclassroom/gitclass_assignment4_pci_timer_blinker-james_ross
-	url = git@github.com:PSUECE373/ece373---assignment-4---blinker-sedihglow.git
-[submodule "homework_projects/gitclassroom/gitclass_assignment5_userspace_driver-james_ross"]
-	path = homework_projects/gitclassroom/gitclass_assignment5_userspace_driver-james_ross
-	url = git@github.com:PSUECE373/ece373---assignment-5---userspace-optional-hw-sedihglow.git
-[submodule "homework_projects/gitclassroom/gitclass_assignment6_descriptors_interrupts-james_ross"]
-	path = homework_projects/gitclassroom/gitclass_assignment6_descriptors_interrupts-james_ross
-	url = git@github.com:PSUECE373/ece373--assignment-6---descriptors-and-interrupts-sedihglow.git
-[submodule "homework_projects/gitclassroom/gitclass_assignment7_build_a_kernel-james_ross"]
-	path = homework_projects/gitclassroom/gitclass_assignment7_build_a_kernel-james_ross
-	url = git@github.com:PSUECE373/ece373---assignment-7---build-a-kernel-sedihglow.git
 [submodule "homework_projects/gitclassroom/gitclass_assignment_8_desc_reading-james_ross"]
 	path = homework_projects/gitclassroom/gitclass_assignment_8_desc_reading-james_ross
-	url = git@github.com:PSUECE373/ece373---assignment-hw8---descriptor-reading-sedihglow.git
-[submodule "homework_projects/gitclassroom/gitclass_assignment8_desc_reading-james_ross"]
-	path = homework_projects/gitclassroom/gitclass_assignment8_desc_reading-james_ross
 	url = git@github.com:PSUECE373/ece373---assignment-hw8---descriptor-reading-sedihglow.git
