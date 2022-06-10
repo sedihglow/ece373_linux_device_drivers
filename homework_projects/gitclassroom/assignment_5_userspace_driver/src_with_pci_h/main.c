@@ -21,34 +21,16 @@
 int main(int argc, char *argv[])
 {
 	struct pci_info pci_info;
-	off_t base_addr;
 	int mem_fd;
 	int opt;
-	char pci_entry[PCI_ENTRY_SIZE] = {0};
 	u32 gpr; /* good packets reveived */
 	bool exit_flag;
 
 	if (getuid() != ROOT_USER)
 		errExit("%s: Must run as root.");
 
-	if (argc != MIN_ARGC && argc != MAX_ARGC) {
-		errExit("Must have all arguments other than -v.\n"
-			"Usage: %s -s <bus:slot.func> -n <ethX> -b <blink_rate>"
-			" -v", argv[0]);
-	}
-
-	while ((opt = getopt(argc, argv, "s:n:b:v")) != -1) {
+	while ((opt = getopt(argc, argv, "v")) != -1) {
 		switch (opt) {
-		case 's':
-			pci_info.pci_bus_slot = optarg;
-			break;
-		case 'n':
-
-			pci_info.portname = optarg;
-			check_port_exists(&pci_info);
-			if (errno)
-				errExit("Checking portname failed.");
-			break;
 		case 'v':
 			/* make sure all arguments were passed with -v */
 			if (argc == MIN_ARGC) {
@@ -63,36 +45,30 @@ int main(int argc, char *argv[])
 		default:
 			errno = EINVAL;
 			errExit("Invalid argument\n"
-				"Usage: %s -s <bus:slot.func> -n <ethX> "
-				"-b <blink_rate> -v",
-				argv[0]);
+				"Usage: %s -v", argv[0]);
 			break;
 		}
 	}
 
-	print_verbose("bus:slot.func = %s\n"
-		      "portname = %s\n"
-		      "verbose = %s\n",
-		      pci_info.pci_bus_slot, pci_info.portname,
-		      (get_verbose() ? "True" : "False"));
+	print_verbose("verbose = %s\n", (get_verbose() ? "True" : "False"));
 
-	/* fills pci_entry */
-	if (!pci_device_exists(pci_info.pci_bus_slot,
-			       pci_entry, PCI_ENTRY_SIZE)) {
-		if (errno)
-			errExit("pci_device_exists failed.");
-
-		noerrExit("%s pci device does not exist",
-			  pci_info.pci_bus_slot);
-	}
-
-	base_addr = get_bar_addr(&pci_info, pci_entry);
+	setup_pci_data(&pci_info);
 	if (errno)
-		errExit("Failed to get base address.");
+		errExit("setup_pci_data failed: failed to alloc pci access.");
 
-	print_verbose("base address: %X\n", base_addr);
+	find_pci_dev(&pci_info);
+	if (errno)
+		errExit("intel 82540EM not found.");
 
-	mem_fd = open_dev(&pci_info, base_addr);
+	get_more_dev_info(&pci_info);
+
+	print_verbose("Found device match: %02x:%02x.%d (0x%04x:0x%04x)\n",
+		      pci_info.dev->bus, pci_info.dev->dev, pci_info.dev->func,
+		      pci_info.dev->vendor_id, pci_info.dev->device_id);
+	print_verbose("\tBAR[0] addr: 0x%016lx, BAR[0] length: %d\n",
+		      pci_info.dev->base_addr[BAR0], pci_info.dev->size[BAR0]);
+
+	mem_fd = open_dev(&pci_info);
 	if (errno)
 		errExit("open_dev failed");
 

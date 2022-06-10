@@ -1,8 +1,8 @@
 BIN = ./bin/i82540EM_blink_driver.out
 CC=gcc
-CCFLAGS = -I ./include -I -c -Wall -Wextra -pthread 
+CCFLAGS = -I ./include -I -c -Wall -Wextra -pthread
 CCFLAGS+= -m64 -O0 -g -pedantic
-LDFLAGS = -pthread -m64
+LDFLAGS = -pthread -m64 -lpci
 
 SRCS=$(wildcard ./src_with_pci_h/*.c)
 OBJS=$(SRCS:.c=.o)
@@ -21,12 +21,12 @@ valgrind: # check for memory leak
 	$(info -- Checking For Memory Leaks --)
 	make
 	sudo valgrind -s --leak-check=full --show-leak-kinds=all \
-	./bin/i82540EM_blink_driver.out -s 0000:00:03.0 -n enp0s3 -v
+	./bin/i82540EM_blink_driver.out -v
 
 .PHONY: debug
 debug:	# GNU debugger
 	$(info -- Debugging --)
-	sudo gdb ./bin/i82540EM_blink_driver.out -s 0000:00:03.0 -n enp0s3 -v
+	sudo gdb ./bin/i82540EM_blink_driver.out
 
 .PHONY: clean
 clean:	# clean the directory
@@ -37,5 +37,5 @@ clean:	# clean the directory
 run: # run the program as follows
 	$(info -- Running Program --)
 	make
-	sudo ./bin/i82540EM_blink_driver.out -s 0000:00:03.0 -n enp0s3 -v
+	sudo ./bin/i82540EM_blink_driver.out -v
 

@@ -3,13 +3,13 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <fcntl.h>
-#include <pci/pci.h>
 #include <inttypes.h>
 #include <string.h>
 #include <stdbool.h>
 #include <sys/mman.h>
 #include <stdarg.h>
 #include <time.h>
+#include <pci/pci.h>
 
 #include "err_handle.h"
 #include "convNum.h"
@@ -45,16 +45,15 @@
 #define LED2_MODE_OFF 0x000F0000
 #define LED3_MODE_OFF 0x0F000000
 
+#define DEV_ID 0x100e /* intel 82540EM device ID */
+#define BAR0 0 /* use BAR0 for MMIO */
+
 /* definitions passed to clear_pci_info for unmapping mem option */
 #define MEM_UNMAP    true
 #define MEM_NO_UNMAP false
 
-#define DEV_ID 0x100e /* intel 82540EM device ID */
-
 struct pci_info {
 	volatile void *mem_addr;
-	char *portname;
-	char *pci_bus_slot;
 
 	struct pci_dev *dev;
 	struct pci_access *pacc;
@@ -68,16 +67,15 @@ void print_verbose(char *fmt, ...);
 u32 mem_read32(volatile void *mem_addr, u32 reg);
 void mem_write32(volatile void *mem_addr, u32 reg, u32 val);
 
-int open_dev(struct pci_info *pci_info, off_t base_addr);
+int open_dev(struct pci_info *pci_info);
 void close_dev(struct pci_info *pci_info, int fd);
 
 /* gets called in close_dev */
 void clear_pci_info(struct pci_info *pci_info, bool unmap);
 
-int check_port_exists(struct pci_info *pci_info);
-bool pci_device_exists(char *pci_bus_slot, char *pci_entry, size_t pe_len);
-
-off_t get_bar_addr(struct pci_info *pci_info, char *pci_entry);
+int setup_pci_data(struct pci_info *pci_info);
+int find_pci_dev(struct pci_info *pci_info);
+void get_more_dev_info(struct pci_info *pci_info);
 
 void clear_stdin();
 bool get_user_exit();
@@ -85,6 +83,5 @@ bool get_user_exit();
 int set_led(struct pci_info *pci_info, int led_num, bool state);
 void set_all_leds(struct pci_info *pci_info, bool state);
 void led_blink_sequence(struct pci_info *pci_info);
-
 
 u32 get_good_packets_received(struct pci_info *pci_info);

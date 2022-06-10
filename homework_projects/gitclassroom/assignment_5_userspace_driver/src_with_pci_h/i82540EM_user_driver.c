@@ -5,8 +5,6 @@
 #define SUCCESS 0
 #define FAILURE -1
 
-#define MEM_WINDOW_SZ  0x10000000
-
 #define BUF_SIZE 128
 #define ADDR_STR_SIZE 10
 
@@ -46,21 +44,22 @@ void print_verbose(char *fmt, ...)
 
 u32 mem_read32(volatile void *mem_addr, u32 reg)
 {
-	u32 *mem_reg = HWREGU32(mem_addr, reg);
+	volatile u32 *mem_reg = HWREGU32(mem_addr, reg);
 	u32 val = *mem_reg;
 	return val;
 }
 
 void mem_write32(volatile void *mem_addr, u32 reg, u32 val)
 {
-	u32 *mem_reg = HWREGU32(mem_addr, reg);
+	volatile u32 *mem_reg = HWREGU32(mem_addr, reg);
 	*mem_reg = val;
 }
 
 
-int open_dev(struct pci_info *pci_info, off_t base_addr)
+int open_dev(struct pci_info *pci_info)
 {
 	int fd;
+	struct pci_dev *dev = pci_info->dev;
 
 	fd = open("/dev/mem", O_RDWR);
 	if (errno) {
@@ -68,8 +67,11 @@ int open_dev(struct pci_info *pci_info, off_t base_addr)
 		return FAILURE;
 	}
 
-	pci_info->mem_addr = mmap(NULL, MEM_WINDOW_SZ, (PROT_READ|PROT_WRITE),
-				  MAP_SHARED, fd, base_addr);
+	pci_info->mem_addr = mmap(NULL, dev->size[BAR0],
+				  PROT_READ | PROT_WRITE,
+				  MAP_SHARED,
+				  fd,
+				  (dev->base_addr[BAR0] & PCI_ADDR_MEM_MASK));
 	if (pci_info->mem_addr == MAP_FAILED) {
 		err_msg("mmap failed - try rebooting with iomem=relaxed");
 		close(fd);
@@ -81,13 +83,13 @@ int open_dev(struct pci_info *pci_info, off_t base_addr)
 
 void clear_pci_info(struct pci_info *pci_info, bool unmap)
 {
-	if (unmap) {
-		munmap((void *)pci_info->mem_addr, MEM_WINDOW_SZ);
-		pci_info->mem_addr = NULL;
-	}
+	if (unmap)
+		munmap((void *)pci_info->mem_addr, pci_info->dev->size[BAR0]);
 
-	pci_info->portname     = NULL;
-	pci_info->pci_bus_slot = NULL;
+	pci_cleanup(pci_info->pacc);
+
+	pci_info->mem_addr = NULL;
+	pci_info->dev	   = NULL;
 }
 
 void close_dev(struct pci_info *pci_info, int fd)
@@ -96,119 +98,48 @@ void close_dev(struct pci_info *pci_info, int fd)
 	close(fd);
 }
 
-
-int check_port_exists(struct pci_info *pci_info)
+int setup_pci_data(struct pci_info *pci_info)
 {
-	char buf[BUF_SIZE] = {'\0'};
-	FILE *input;
+	/* setup pci structures to find our device */
+	pci_info->pacc = pci_alloc();
+	if (errno)
+		return FAILURE;
 
-	snprintf(buf, BUF_SIZE, "ip -br link show %s", pci_info->portname);
-	input = popen(buf, "r");
-	if (errno) {
-		err_msg("popen failed checking portname.");
-		return FAILURE;
-	} else if (!input) {
-		errno = ENOMEM;
-		err_msg("popen mem alloc failure.");
-		return FAILURE;
-	}
+	pci_filter_init(pci_info->pacc, &pci_info->filter);
 
-	fgets(buf, BUF_SIZE, input);
-	pclose(input);
-	if (strncmp(pci_info->portname, buf, strlen(pci_info->portname))) {
-		errno = EINVAL;
-		err_msg("%s not found\n", pci_info->portname);
-		return FAILURE;
-	}
+	pci_init(pci_info->pacc); /* get underlying PCI accessors ready */
+	pci_scan_bus(pci_info->pacc); /* get list of all devices on bus */
+
+	/* 0x8086 - pci.h include chain */
+	pci_info->filter.vendor = PCI_VENDOR_ID_INTEL;
+	pci_info->filter.device = DEV_ID; /* Intel 82540EM - e1000 device */
 
 	return SUCCESS;
 }
 
-bool pci_device_exists(char *pci_bus_slot, char *pci_entry, size_t pe_len)
+int find_pci_dev(struct pci_info *pci_info)
 {
-	char buf[BUF_SIZE] = {'\0'};
-	FILE *input;
+	struct pci_dev *dev;
 
-	/* Does pci device specified by the user exist? */
-	snprintf(buf, BUF_SIZE, "lspci -s %s", pci_bus_slot);
-	input = popen(buf, "r");
-	if (errno) {
-		err_msg("popen failed checking portname.");
-		return false;
-	} else if (!input) {
-		errno = ENOMEM;
-		err_msg("popen mem alloc failure.");
-		return false;
+	/* iterate to try and find the pci device */
+	for (pci_info->dev = pci_info->pacc->devices;
+	     pci_info->dev; pci_info->dev = pci_info->dev->next) {
+		dev = pci_info->dev;
+		print_verbose("Trying to match %02x:%02x.%d (0x%04x:0x%04x)\n",
+			      dev->bus, dev->dev, dev->func, dev->vendor_id,
+			      dev->device_id);
+		if (pci_filter_match(&pci_info->filter, dev))
+			return SUCCESS;
 	}
 
-	/* get the pci entry from input */
-	fgets(pci_entry, pe_len, input);
-	pclose(input);
-	pe_len = strlen(buf);
-	if (pe_len <= 1)
-		return false;
-
-	return true;
+	errno = EINVAL; /* dev is NULL, device not found */
+	return FAILURE;
 }
 
-off_t get_bar_addr(struct pci_info *pci_info, char *pci_entry)
+void get_more_dev_info(struct pci_info *pci_info)
 {
-	char addr_str[ADDR_STR_SIZE] = {'\0'};
-	char buf[BUF_SIZE] = {'\0'};
-	off_t base_addr;
-	size_t len;
-	FILE *input;
-
-	/* Let's make sure this is an Intel ethernet device.  A better
-	 * way for doing this would be to look at the vendorId and the
-	 * deviceId, but we're too lazy to find all the deviceIds that
-	 * will work here, so we'll live a little dangerously and just
-	 * be sure it is an Intel device according to the description.
-	 * Oh, and this is exactly how programmers get into trouble.
-	 */
-	if (!strstr(pci_entry, "Ethernet controller") ||
-	    !strstr(pci_entry, "Intel")) {
-		errno = EINVAL;
-		err_msg("%s wrong pci device, not intel\n", pci_entry);
-		return FAILURE;
-	}
-
-	/* Only grab the first memory bar */
-	snprintf(buf, BUF_SIZE,
-		 "lspci -s %s -v | awk '/Memory at/ { print $3 }' | head -1",
-		 pci_info->pci_bus_slot);
-	input = popen(buf, "r");
-	if (errno) {
-		err_msg("popen failed checking pci_bus_slot.");
-		return FAILURE;
-	} else if (!input) {
-		errno = ENOMEM;
-		err_msg("popen mem alloc failure.");
-		return FAILURE;
-	}
-
-	fgets(addr_str, ADDR_STR_SIZE, input);
-	pclose(input);
-
-	len = strlen(addr_str);
-        if (len <= 1) {
-		errno = EINVAL;
-                err_msg("%s memory address invalid", addr_str);
-		return FAILURE;
-        }
-
-	if (addr_str[len-1] == '\n')
-		addr_str[len-1] = '\0';
-
-	print_verbose("addr_str: %s\n", addr_str);
-
-        base_addr = convU64_t(addr_str, CN_BASE_16 | CN_NOEXIT_, "addr_str");
-	if (errno) {
-		err_msg("failed to convert addr_str");
-		return FAILURE;
-	}
-
-	return base_addr;
+	pci_fill_info(pci_info->dev,
+		      PCI_FILL_IDENT | PCI_FILL_BASES | PCI_FILL_SIZES);
 }
 
 void clear_stdin()
