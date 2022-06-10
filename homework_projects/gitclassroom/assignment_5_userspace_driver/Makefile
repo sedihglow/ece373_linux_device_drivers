@@ -4,7 +4,7 @@ CCFLAGS = -I ./include -I -c -Wall -Wextra -pthread
 CCFLAGS+= -m64 -O0 -g -pedantic
 LDFLAGS = -pthread -m64
 
-SRCS=$(wildcard ./src/*.c)
+SRCS=$(wildcard ./src_with_pci_h/*.c)
 OBJS=$(SRCS:.c=.o)
 
 .PHONY: all
@@ -31,7 +31,7 @@ debug:	# GNU debugger
 .PHONY: clean
 clean:	# clean the directory
 	$(info -- Cleaning The Directory --)
-	rm -rf ./src/*.o ./bin/i82540EM_blink_driver.out
+	rm -rf ./src/*.o ./bin/i82540EM_blink_driver.out ./src_with_pci_h/*.o
 
 .PHONY: run
 run: # run the program as follows

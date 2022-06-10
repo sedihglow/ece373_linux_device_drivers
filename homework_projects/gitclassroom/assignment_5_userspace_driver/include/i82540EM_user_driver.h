@@ -49,12 +49,16 @@
 #define MEM_UNMAP    true
 #define MEM_NO_UNMAP false
 
+#define DEV_ID 0x100e /* intel 82540EM device ID */
+
 struct pci_info {
 	volatile void *mem_addr;
 	char *portname;
 	char *pci_bus_slot;
 
-
+	struct pci_dev *dev;
+	struct pci_access *pacc;
+	struct pci_filter filter;
 };
 
 void set_verbose(bool state);
