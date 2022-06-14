@@ -5,7 +5,7 @@
 #define SUCCESS 0
 #define FAILURE -1
 
-#define MEM_WINDOW_SZ  0x10000000
+#define MEM_WINDOW_SZ  0x00040000
 
 #define BUF_SIZE 128
 #define ADDR_STR_SIZE 10
@@ -68,7 +68,7 @@ int open_dev(struct pci_info *pci_info, off_t base_addr)
 		return FAILURE;
 	}
 
-	pci_info->mem_addr = mmap(NULL, MEM_WINDOW_SZ, (PROT_READ|PROT_WRITE),
+	pci_info->mem_addr = mmap(NULL, MEM_WINDOW_SZ, PROT_READ | PROT_WRITE,
 				  MAP_SHARED, fd, base_addr);
 	if (pci_info->mem_addr == MAP_FAILED) {
 		err_msg("mmap failed - try rebooting with iomem=relaxed");
